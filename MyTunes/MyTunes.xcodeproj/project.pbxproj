@@ -18,6 +18,19 @@
 		41774E682A2E84F600D83E39 /* MyTunesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E672A2E84F600D83E39 /* MyTunesUITests.swift */; };
 		41774E6A2A2E84F600D83E39 /* MyTunesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E692A2E84F600D83E39 /* MyTunesUITestsLaunchTests.swift */; };
 		41774E7A2A2E951300D83E39 /* MyTunesAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 41774E792A2E951300D83E39 /* MyTunesAPI */; };
+		41774E922A2F897C00D83E39 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E912A2F897C00D83E39 /* LoadingView.swift */; };
+		41774E942A2F89CB00D83E39 /* LoadingShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E932A2F89CB00D83E39 /* LoadingShowable.swift */; };
+		41774E962A2F8ABC00D83E39 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E952A2F8ABC00D83E39 /* BaseViewController.swift */; };
+		41774E992A2F8D2800D83E39 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E972A2F8D2800D83E39 /* SplashViewController.swift */; };
+		41774E9A2A2F8D2800D83E39 /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41774E982A2F8D2800D83E39 /* SplashViewController.xib */; };
+		41774E9C2A2F8D6100D83E39 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E9B2A2F8D6100D83E39 /* SplashPresenter.swift */; };
+		41774E9E2A2F8DA300D83E39 /* SplashInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E9D2A2F8DA300D83E39 /* SplashInteractor.swift */; };
+		41774EA02A2F8DC700D83E39 /* SplachRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774E9F2A2F8DC700D83E39 /* SplachRouter.swift */; };
+		41774EA32A2F900600D83E39 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA12A2F900600D83E39 /* HomeViewController.swift */; };
+		41774EA42A2F900600D83E39 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41774EA22A2F900600D83E39 /* HomeViewController.xib */; };
+		41774EA62A2F902C00D83E39 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA52A2F902C00D83E39 /* HomeRouter.swift */; };
+		41774EA82A2F904500D83E39 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA72A2F904500D83E39 /* HomePresenter.swift */; };
+		41774EAA2A2F906800D83E39 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA92A2F906800D83E39 /* HomeInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +66,19 @@
 		41774E672A2E84F600D83E39 /* MyTunesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTunesUITests.swift; sourceTree = "<group>"; };
 		41774E692A2E84F600D83E39 /* MyTunesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTunesUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		41774E772A2E85CF00D83E39 /* MyTunesAPI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MyTunesAPI; path = ../MyTunesAPI; sourceTree = "<group>"; };
+		41774E912A2F897C00D83E39 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		41774E932A2F89CB00D83E39 /* LoadingShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingShowable.swift; sourceTree = "<group>"; };
+		41774E952A2F8ABC00D83E39 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		41774E972A2F8D2800D83E39 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		41774E982A2F8D2800D83E39 /* SplashViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
+		41774E9B2A2F8D6100D83E39 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
+		41774E9D2A2F8DA300D83E39 /* SplashInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashInteractor.swift; sourceTree = "<group>"; };
+		41774E9F2A2F8DC700D83E39 /* SplachRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachRouter.swift; sourceTree = "<group>"; };
+		41774EA12A2F900600D83E39 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		41774EA22A2F900600D83E39 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		41774EA52A2F902C00D83E39 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		41774EA72A2F904500D83E39 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		41774EA92A2F906800D83E39 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,14 +132,15 @@
 		41774E422A2E84F300D83E39 /* MyTunes */ = {
 			isa = PBXGroup;
 			children = (
-				41774E432A2E84F300D83E39 /* AppDelegate.swift */,
-				41774E452A2E84F300D83E39 /* SceneDelegate.swift */,
+				41774E882A2F87D500D83E39 /* App */,
+				41774E892A2F880200D83E39 /* CustomView */,
+				41774E8A2A2F880B00D83E39 /* Extension */,
+				41774E8C2A2F885300D83E39 /* Module */,
+				41774E8B2A2F883B00D83E39 /* Utils */,
 				41774E472A2E84F300D83E39 /* ViewController.swift */,
 				41774E492A2E84F300D83E39 /* Main.storyboard */,
-				41774E4F2A2E84F600D83E39 /* Assets.xcassets */,
 				41774E512A2E84F600D83E39 /* LaunchScreen.storyboard */,
 				41774E542A2E84F600D83E39 /* Info.plist */,
-				41774E4C2A2E84F300D83E39 /* MyTunes.xcdatamodeld */,
 			);
 			path = MyTunes;
 			sourceTree = "<group>";
@@ -140,6 +167,90 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		41774E882A2F87D500D83E39 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				41774E432A2E84F300D83E39 /* AppDelegate.swift */,
+				41774E452A2E84F300D83E39 /* SceneDelegate.swift */,
+				41774E4F2A2E84F600D83E39 /* Assets.xcassets */,
+				41774E4C2A2E84F300D83E39 /* MyTunes.xcdatamodeld */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		41774E892A2F880200D83E39 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				41774E912A2F897C00D83E39 /* LoadingView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		41774E8A2A2F880B00D83E39 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		41774E8B2A2F883B00D83E39 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				41774E932A2F89CB00D83E39 /* LoadingShowable.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		41774E8C2A2F885300D83E39 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				41774E8D2A2F893500D83E39 /* Base */,
+				41774E8E2A2F893C00D83E39 /* Detail */,
+				41774E8F2A2F894500D83E39 /* Home */,
+				41774E902A2F894F00D83E39 /* Splash */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		41774E8D2A2F893500D83E39 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				41774E952A2F8ABC00D83E39 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		41774E8E2A2F893C00D83E39 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		41774E8F2A2F894500D83E39 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				41774EA12A2F900600D83E39 /* HomeViewController.swift */,
+				41774EA22A2F900600D83E39 /* HomeViewController.xib */,
+				41774EA52A2F902C00D83E39 /* HomeRouter.swift */,
+				41774EA72A2F904500D83E39 /* HomePresenter.swift */,
+				41774EA92A2F906800D83E39 /* HomeInteractor.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		41774E902A2F894F00D83E39 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				41774E972A2F8D2800D83E39 /* SplashViewController.swift */,
+				41774E982A2F8D2800D83E39 /* SplashViewController.xib */,
+				41774E9B2A2F8D6100D83E39 /* SplashPresenter.swift */,
+				41774E9D2A2F8DA300D83E39 /* SplashInteractor.swift */,
+				41774E9F2A2F8DC700D83E39 /* SplachRouter.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,7 +362,9 @@
 			files = (
 				41774E532A2E84F600D83E39 /* LaunchScreen.storyboard in Resources */,
 				41774E502A2E84F600D83E39 /* Assets.xcassets in Resources */,
+				41774EA42A2F900600D83E39 /* HomeViewController.xib in Resources */,
 				41774E4B2A2E84F300D83E39 /* Main.storyboard in Resources */,
+				41774E9A2A2F8D2800D83E39 /* SplashViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,9 +390,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				41774E482A2E84F300D83E39 /* ViewController.swift in Sources */,
+				41774EA02A2F8DC700D83E39 /* SplachRouter.swift in Sources */,
 				41774E4E2A2E84F300D83E39 /* MyTunes.xcdatamodeld in Sources */,
+				41774EAA2A2F906800D83E39 /* HomeInteractor.swift in Sources */,
 				41774E442A2E84F300D83E39 /* AppDelegate.swift in Sources */,
+				41774E942A2F89CB00D83E39 /* LoadingShowable.swift in Sources */,
+				41774E922A2F897C00D83E39 /* LoadingView.swift in Sources */,
+				41774EA62A2F902C00D83E39 /* HomeRouter.swift in Sources */,
+				41774EA82A2F904500D83E39 /* HomePresenter.swift in Sources */,
+				41774E962A2F8ABC00D83E39 /* BaseViewController.swift in Sources */,
 				41774E462A2E84F300D83E39 /* SceneDelegate.swift in Sources */,
+				41774E9E2A2F8DA300D83E39 /* SplashInteractor.swift in Sources */,
+				41774E992A2F8D2800D83E39 /* SplashViewController.swift in Sources */,
+				41774E9C2A2F8D6100D83E39 /* SplashPresenter.swift in Sources */,
+				41774EA32A2F900600D83E39 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

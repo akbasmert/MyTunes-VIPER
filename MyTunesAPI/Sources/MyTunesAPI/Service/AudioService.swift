@@ -11,13 +11,19 @@ import UIKit
 
 public protocol AudiosServiceProtocol: AnyObject {
     func fetchAudios( key: String, completion: @escaping (Result<[Audio],Error>) -> Void)
+    func isConnectedToInternet() -> Bool
 }
 
 public class AudiosService: AudiosServiceProtocol {
     public init() {}
     
+    public func isConnectedToInternet() -> Bool {
+        return Reachability.isConnectedToNetwork()
+    }
+    
     public func fetchAudios(key: String, completion: @escaping (Result<[Audio], Error>) -> Void) {
-        let urlString = "https://itunes.apple.com/search?term=jack+johnson"
+        let urlString = "https://itunes.apple.com/search?term=Tarkan"
+       // let urlString = "https://itunes.apple.com/search?term=jack+johnson&entity=movie"
         AF.request(urlString).responseData { response in
             switch response.result {
             case.success(let data):
