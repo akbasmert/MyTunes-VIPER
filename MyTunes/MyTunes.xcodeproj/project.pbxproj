@@ -31,6 +31,10 @@
 		41774EA62A2F902C00D83E39 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA52A2F902C00D83E39 /* HomeRouter.swift */; };
 		41774EA82A2F904500D83E39 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA72A2F904500D83E39 /* HomePresenter.swift */; };
 		41774EAA2A2F906800D83E39 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EA92A2F906800D83E39 /* HomeInteractor.swift */; };
+		41774EAD2A2FAB9C00D83E39 /* Audios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EAC2A2FAB9C00D83E39 /* Audios.swift */; };
+		41774EB12A2FBE7D00D83E39 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EAF2A2FBE7D00D83E39 /* HomeTableViewCell.swift */; };
+		41774EB22A2FBE7D00D83E39 /* HomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41774EB02A2FBE7D00D83E39 /* HomeTableViewCell.xib */; };
+		41774EB42A2FCFE000D83E39 /* HomeCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +83,10 @@
 		41774EA52A2F902C00D83E39 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		41774EA72A2F904500D83E39 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		41774EA92A2F906800D83E39 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		41774EAC2A2FAB9C00D83E39 /* Audios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audios.swift; sourceTree = "<group>"; };
+		41774EAF2A2FBE7D00D83E39 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		41774EB02A2FBE7D00D83E39 /* HomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTableViewCell.xib; sourceTree = "<group>"; };
+		41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +240,8 @@
 		41774E8F2A2F894500D83E39 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				41774EAE2A2FBE5A00D83E39 /* View */,
+				41774EAB2A2FAB8700D83E39 /* Entity */,
 				41774EA12A2F900600D83E39 /* HomeViewController.swift */,
 				41774EA22A2F900600D83E39 /* HomeViewController.xib */,
 				41774EA52A2F902C00D83E39 /* HomeRouter.swift */,
@@ -251,6 +261,24 @@
 				41774E9F2A2F8DC700D83E39 /* SplachRouter.swift */,
 			);
 			path = Splash;
+			sourceTree = "<group>";
+		};
+		41774EAB2A2FAB8700D83E39 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				41774EAC2A2FAB9C00D83E39 /* Audios.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		41774EAE2A2FBE5A00D83E39 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				41774EAF2A2FBE7D00D83E39 /* HomeTableViewCell.swift */,
+				41774EB02A2FBE7D00D83E39 /* HomeTableViewCell.xib */,
+				41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,6 +372,8 @@
 				Base,
 			);
 			mainGroup = 41774E372A2E84F300D83E39;
+			packageReferences = (
+			);
 			productRefGroup = 41774E412A2E84F300D83E39 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -364,6 +394,7 @@
 				41774E502A2E84F600D83E39 /* Assets.xcassets in Resources */,
 				41774EA42A2F900600D83E39 /* HomeViewController.xib in Resources */,
 				41774E4B2A2E84F300D83E39 /* Main.storyboard in Resources */,
+				41774EB22A2FBE7D00D83E39 /* HomeTableViewCell.xib in Resources */,
 				41774E9A2A2F8D2800D83E39 /* SplashViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,12 +428,15 @@
 				41774E942A2F89CB00D83E39 /* LoadingShowable.swift in Sources */,
 				41774E922A2F897C00D83E39 /* LoadingView.swift in Sources */,
 				41774EA62A2F902C00D83E39 /* HomeRouter.swift in Sources */,
+				41774EAD2A2FAB9C00D83E39 /* Audios.swift in Sources */,
+				41774EB42A2FCFE000D83E39 /* HomeCellPresenter.swift in Sources */,
 				41774EA82A2F904500D83E39 /* HomePresenter.swift in Sources */,
 				41774E962A2F8ABC00D83E39 /* BaseViewController.swift in Sources */,
 				41774E462A2E84F300D83E39 /* SceneDelegate.swift in Sources */,
 				41774E9E2A2F8DA300D83E39 /* SplashInteractor.swift in Sources */,
 				41774E992A2F8D2800D83E39 /* SplashViewController.swift in Sources */,
 				41774E9C2A2F8D6100D83E39 /* SplashPresenter.swift in Sources */,
+				41774EB12A2FBE7D00D83E39 /* HomeTableViewCell.swift in Sources */,
 				41774EA32A2F900600D83E39 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,7 +543,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -563,7 +597,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
