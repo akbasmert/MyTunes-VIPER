@@ -13,6 +13,7 @@ protocol HomePresenterProtocol: AnyObject {
     func numberOfItems() -> Int
     func audios(_ index: Int) -> Audio?
     func didSelectRowAt(index: Int)
+    func fetchAudios(key: String)
 }
 
 final class HomePresenter {
@@ -38,9 +39,10 @@ final class HomePresenter {
 extension HomePresenter: HomePresenterProtocol {
     
     func viewDidLoad() {
+        view.setupSearchTableView()
         view.setupTableView()
         view.setTitle("NYTimes Top News")
-        fetchNews()
+        fetchAudios(key: "Tarkan")
     }
     
     func numberOfItems() -> Int {
@@ -54,11 +56,12 @@ extension HomePresenter: HomePresenterProtocol {
     func didSelectRowAt(index: Int) {
        // guard let source = audios(index) else { return }
        // router.navigate(.detail(source: source))
+        print("tılandı")
     }
     
-    private func fetchNews() {
+    func fetchAudios(key: String) {
         view.showLoadingView()
-        interactor.fetchAudios()
+        interactor.fetchAudios(key: key)
     }
 
 }
@@ -74,11 +77,10 @@ extension HomePresenter: HomeInteractorOutputProtocol {
             self.audios = response
          //   print(audios)
             
+            view.searchReloadData()
             view.reloadData()
         case .failure(let error):
             view.showError(error.localizedDescription)
         }
-        
     }
-    
 }

@@ -38,7 +38,7 @@ final class SplashPresenter: SplashPresenterProtocol {
 extension SplashPresenter: SplashInteractorOutputProtocol {
     
     func internetConnection(status: Bool) {
-        
+
         if status {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.router.navigate(.homeScreen)

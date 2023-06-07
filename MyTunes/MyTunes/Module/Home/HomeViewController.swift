@@ -8,8 +8,11 @@
 import UIKit
 
 protocol HomeViewControllerProtocol: AnyObject {
+   
+    func setupSearchTableView()
     func setupTableView()
     func reloadData()
+    func searchReloadData()
     func showError(_ message: String)
     func showLoadingView()
     func hideLoadingView()
@@ -18,9 +21,14 @@ protocol HomeViewControllerProtocol: AnyObject {
 
 final class HomeViewController: BaseViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var uiView: UIView!
+    @IBOutlet weak var searchCollectionView: UICollectionView!
+    @IBOutlet weak var searchTableView: UITableView!
     var presenter: HomePresenterProtocol!
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +36,27 @@ final class HomeViewController: BaseViewController {
         // Do any additional setup after loading the view.
         presenter.viewDidLoad()
        
+        searchBar.delegate = self
+       
+        searchCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
+        searchCollectionView.dataSource = self
+        searchCollectionView.delegate = self
+        searchCollectionView.reloadData()
         
+        let firstIndexPath = IndexPath(item: 0, section: 0)
+        searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
     }
 }
 
-
 extension HomeViewController: HomeViewControllerProtocol {
+    
+    func setupSearchTableView() {
+        searchTableView.dataSource = self
+        searchTableView.delegate = self
+       // tableView.register(cellType: NewsCell.self)
+       // tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
+        searchTableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
+    }
     
     func setupTableView() {
         tableView.dataSource = self
@@ -47,6 +70,13 @@ extension HomeViewController: HomeViewControllerProtocol {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
             self.tableView.reloadData()
+        }
+    }
+    
+    func searchReloadData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.searchTableView.reloadData()
         }
     }
     
@@ -65,40 +95,57 @@ extension HomeViewController: HomeViewControllerProtocol {
     func setTitle(_ title: String) {
         self.title = title
     }
-    
-    
 }
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.numberOfItems()
-      
+        
+        if tableView == self.tableView {
+           return presenter.numberOfItems()
+        }
+        return presenter.numberOfItems()
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as! HomeTableViewCell
         
-       
-         if let audios = presenter.audios(indexPath.row) {
-             cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
-             print(audios)
-             print("********")
-         }
         
-        
-         cell.selectionStyle = .none
-        
-        return cell
+        if tableView == self.tableView {
+          
+             if let audios = presenter.audios(indexPath.row) {
+                 cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
+               //  print(audios)
+             }
+            
+            
+             cell.selectionStyle = .none
+            
+            return cell
+            
+        } else {
+            if let audios = presenter.audios(indexPath.row) {
+                cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
+              //  print(audios)
+            }
+           
+           
+            cell.selectionStyle = .none
+           
+           return cell
+        }
     }
-
-    
 }
 
 extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.didSelectRowAt(index: indexPath.row)
+        
+        if tableView == self.tableView {
+            presenter.didSelectRowAt(index: indexPath.row)
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -106,7 +153,71 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        return 100
+    }
+}
+
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 8
     }
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+         let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchCollectionViewCell
+        
+                return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+    }
+    
+}
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let headerNewSize = SearchCollectionViewCell.expectedCardSize(CGSize(width: 0.0, height: 50))
+        
+        return headerNewSize
+    }
+}
+
+
+extension HomeViewController: UISearchBarDelegate {
+    
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBar.showsCancelButton = true
+        uiView.isHidden = false
+        if !searchText.isEmpty {
+            let modifiedSearchText = searchText.replacingOccurrences(of: " ", with: "+")
+            print(modifiedSearchText)
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
+                self?.presenter.fetchAudios(key: searchText)
+                self?.tableView.reloadData()
+            })
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+          // İptal düğmesine tıklandığında yapılacak işlemleri burada gerçekleştirin
+        uiView.isHidden = true
+        searchBar.showsCancelButton = false
+
+          searchBar.text = nil // Arama metnini sıfırla
+          searchBar.resignFirstResponder() // Klavyeyi kapat
+      }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+          // Arama çubuğuna tıklandığında yapılacak işlemleri burada gerçekleştirin
+          // Örneğin, bir işlem yapmak için başka bir fonksiyonu çağırabilirsiniz
+        searchBar.showsCancelButton = true
+
+
+          // true döndürerek arama çubuğunun düzenlenebilir olmasını sağlayın
+          return true
+      }
+      
 }

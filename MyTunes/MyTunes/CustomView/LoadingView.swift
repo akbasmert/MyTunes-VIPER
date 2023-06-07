@@ -27,11 +27,15 @@ class LoadingView {
     }
 
     func startLoading() {
-        UIApplication.shared.windows.first?.addSubview(blurView)
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.startAnimating()
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.addSubview(blurView)
+            blurView.translatesAutoresizingMaskIntoConstraints = false
+            activityIndicator.startAnimating()
+        }
     }
 
+    
     func hideLoading() {
         DispatchQueue.main.async {
             self.blurView.removeFromSuperview()
