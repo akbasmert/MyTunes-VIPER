@@ -11,7 +11,7 @@ import MyTunesAPI
 typealias AudioResult = Result<[Audio], Error>
 
 protocol HomeInteractorProtocol: AnyObject {
-    func fetchAudios(key: String)
+    func fetchAudios(key: String, filerKey: String)
 }
 
 protocol HomeInteractorOutputProtocol {
@@ -29,8 +29,8 @@ final class HomeInteractor {
 
 extension HomeInteractor: HomeInteractorProtocol {
     
-    func fetchAudios(key: String) {
-        service.fetchAudios(key: key) { [weak self] result in
+    func fetchAudios(key: String, filerKey: String) {
+        service.fetchAudios(key: key, filterKey: filerKey) { [weak self] result in
             guard let self else { return }
             self.output?.fetchAudioOutput(result)
             

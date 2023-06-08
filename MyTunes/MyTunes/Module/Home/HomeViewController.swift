@@ -183,6 +183,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+        if searchTableView.numberOfRows(inSection: 0) > 0 {
+            let indexPathTableView = IndexPath(row: 0, section: 0)
+            searchTableView.scrollToRow(at: indexPathTableView, at: .top, animated: true)
+        }
+        presenter.titleDidSelectRowAt(index: indexPath.row)
+        print(presenter.searchKey)
+        print(presenter.getFilterKey)
+        self.presenter.fetchAudios(key: presenter.searchKey, filterKey: presenter.getFilterKey)
+            tableView.reloadData()
+        
     }
     
 }
@@ -208,11 +218,12 @@ extension HomeViewController: UISearchBarDelegate {
         searchBar.showsCancelButton = true
         uiView.isHidden = false
         if !searchText.isEmpty {
-            let modifiedSearchText = searchText.replacingOccurrences(of: " ", with: "+")
-            print(modifiedSearchText)
             timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
-                self?.presenter.fetchAudios(key: searchText)
+                self?.presenter.fetchAudios(key: searchText, filterKey: self?.presenter.getFilterKey ?? "")
+                self?.presenter.setSearchKey(searchKey: searchText)
+                
+                print(self!.presenter.searchKey)
                 self?.tableView.reloadData()
             })
         }

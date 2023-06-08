@@ -10,7 +10,7 @@ import Alamofire
 import UIKit
 
 public protocol AudiosServiceProtocol: AnyObject {
-    func fetchAudios( key: String, completion: @escaping (Result<[Audio],Error>) -> Void)
+    func fetchAudios( key: String, filterKey: String, completion: @escaping (Result<[Audio],Error>) -> Void)
     func isConnectedToInternet() -> Bool
 }
 
@@ -21,13 +21,13 @@ public class AudiosService: AudiosServiceProtocol {
         return Reachability.isConnectedToNetwork()
     }
     
-    public func fetchAudios(key: String, completion: @escaping (Result<[Audio], Error>) -> Void) {
+    public func fetchAudios(key: String, filterKey: String, completion: @escaping (Result<[Audio], Error>) -> Void) {
         guard let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             // Encoding error
             return
         }
         
-        let urlString = "https://itunes.apple.com/search?term=\(encodedKey)&country=tr&entity=song"
+        let urlString = "https://itunes.apple.com/search?term=\(encodedKey)&country=tr&entity=\(filterKey)"
         guard let url = URL(string: urlString) else {
             // Invalid URL
             return

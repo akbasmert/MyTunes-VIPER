@@ -16,7 +16,12 @@ protocol HomePresenterProtocol: AnyObject {
     func audios(_ index: Int) -> Audio?
     func title(_ index: Int) -> String?
     func didSelectRowAt(index: Int)
-    func fetchAudios(key: String)
+    func titleDidSelectRowAt(index: Int)
+    func fetchAudios(key: String, filterKey: String)
+    func setSearchKey(searchKey: String)
+    
+    var getFilterKey: String { get }
+    var searchKey: String { get }
 }
 
 final class HomePresenter {
@@ -24,6 +29,8 @@ final class HomePresenter {
     unowned var view: HomeViewControllerProtocol
     let router: HomeRouterProtocol!
     let interactor: HomeInteractorProtocol!
+    var filterKey: String = ""
+    var searchSetKey: String = ""
     
     private var audios: [Audio] = []
     var searchHeader: [String] = ["all", "music", "musicVideo", "podcast", "movie", "ebook", "tvShow"]
@@ -42,13 +49,26 @@ final class HomePresenter {
 
 extension HomePresenter: HomePresenterProtocol {
    
+    
+    var searchKey: String {
+       searchSetKey
+    }
+    
+    var getFilterKey: String {
+        return filterKey
+    }
+    
+    func setSearchKey(searchKey: String) {
+        self.searchSetKey = searchKey
+    }
+    
     func sendData(audio: Audio) {}
     
     func viewDidLoad() {
         view.setupSearchTableView()
         view.setupTableView()
         view.setTitle("NYTimes Top News")
-        fetchAudios(key: "Tarkan")
+        fetchAudios(key: "Tarkan", filterKey: "")
     }
     
     func numberOfItems() -> Int {
@@ -82,9 +102,29 @@ extension HomePresenter: HomePresenterProtocol {
         
     }
     
-    func fetchAudios(key: String) {
+    func titleDidSelectRowAt(index: Int) {
+
+        switch index {
+        case 0:
+            filterKey = ""
+        case 1:
+            filterKey = "song"
+        case 2:
+            filterKey = "musicVideo"
+        case 3:
+            filterKey = "podcast"
+        case 4:
+            filterKey = "movie"
+        case 5:
+            filterKey = "ebook"
+        default:
+            filterKey = "tvEpisode"
+        }
+    }
+    
+    func fetchAudios(key: String, filterKey: String) {
         view.showLoadingView()
-        interactor.fetchAudios(key: key)
+        interactor.fetchAudios(key: key, filerKey: filterKey)
     }
 }
 
