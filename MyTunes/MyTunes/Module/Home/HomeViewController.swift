@@ -17,6 +17,7 @@ protocol HomeViewControllerProtocol: AnyObject {
     func showLoadingView()
     func hideLoadingView()
     func setTitle(_ title: String)
+    
 }
 
 final class HomeViewController: BaseViewController {
@@ -27,8 +28,10 @@ final class HomeViewController: BaseViewController {
     @IBOutlet weak var uiView: UIView!
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var searchTableView: UITableView!
+    
     var presenter: HomePresenterProtocol!
     var timer: Timer?
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +49,8 @@ final class HomeViewController: BaseViewController {
         let firstIndexPath = IndexPath(item: 0, section: 0)
         searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
     }
+    
+   
 }
 
 extension HomeViewController: HomeViewControllerProtocol {
@@ -144,6 +149,10 @@ extension HomeViewController: UITableViewDelegate {
         
         if tableView == self.tableView {
             presenter.didSelectRowAt(index: indexPath.row)
+            
+        } else {
+            presenter.didSelectRowAt(index: indexPath.row)
+
         }
        
     }
@@ -159,12 +168,16 @@ extension HomeViewController: UITableViewDelegate {
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return presenter.titleNumberOfItems()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
          let cell = searchCollectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier, for: indexPath) as! SearchCollectionViewCell
         
+        if let title = presenter.title(indexPath.row) {
+            cell.cellPresenter = SearchCollectionViewCellPresenter(view: cell, title: title)
+          //  print(audios)
+        }
                 return cell
     }
     
@@ -177,16 +190,20 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let headerNewSize = SearchCollectionViewCell.expectedCardSize(CGSize(width: 0.0, height: 50))
+         // Hücre boyutunu burada belirleyin
+         
+        let label = UILabel()
+        label.text = presenter.titleString(index: indexPath.row)
+        label.sizeToFit()
+        let width = label.frame.width + 24
         
-        return headerNewSize
-    }
+         
+         return CGSize(width: width, height: 30)
+     }
 }
-
 
 extension HomeViewController: UISearchBarDelegate {
     
-
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.showsCancelButton = true
         uiView.isHidden = false

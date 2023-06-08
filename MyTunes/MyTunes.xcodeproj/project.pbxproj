@@ -36,6 +36,12 @@
 		41774EB22A2FBE7D00D83E39 /* HomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41774EB02A2FBE7D00D83E39 /* HomeTableViewCell.xib */; };
 		41774EB42A2FCFE000D83E39 /* HomeCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */; };
 		41774EBC2A30B69E00D83E39 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EBB2A30B69E00D83E39 /* SearchCollectionViewCell.swift */; };
+		41774EBF2A310C6000D83E39 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EBD2A310C6000D83E39 /* DetailViewController.swift */; };
+		41774EC02A310C6000D83E39 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41774EBE2A310C6000D83E39 /* DetailViewController.xib */; };
+		41774EC22A310C7900D83E39 /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC12A310C7800D83E39 /* DetailInteractor.swift */; };
+		41774EC42A310C8A00D83E39 /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC32A310C8A00D83E39 /* DetailPresenter.swift */; };
+		41774EC62A310C9B00D83E39 /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC52A310C9B00D83E39 /* DetailRouter.swift */; };
+		41774EC82A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +95,12 @@
 		41774EB02A2FBE7D00D83E39 /* HomeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTableViewCell.xib; sourceTree = "<group>"; };
 		41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellPresenter.swift; sourceTree = "<group>"; };
 		41774EBB2A30B69E00D83E39 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		41774EBD2A310C6000D83E39 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		41774EBE2A310C6000D83E39 /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
+		41774EC12A310C7800D83E39 /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
+		41774EC32A310C8A00D83E39 /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		41774EC52A310C9B00D83E39 /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
+		41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCellPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +247,11 @@
 		41774E8E2A2F893C00D83E39 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				41774EBD2A310C6000D83E39 /* DetailViewController.swift */,
+				41774EBE2A310C6000D83E39 /* DetailViewController.xib */,
+				41774EC12A310C7800D83E39 /* DetailInteractor.swift */,
+				41774EC32A310C8A00D83E39 /* DetailPresenter.swift */,
+				41774EC52A310C9B00D83E39 /* DetailRouter.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -246,9 +263,9 @@
 				41774EAB2A2FAB8700D83E39 /* Entity */,
 				41774EA12A2F900600D83E39 /* HomeViewController.swift */,
 				41774EA22A2F900600D83E39 /* HomeViewController.xib */,
-				41774EA52A2F902C00D83E39 /* HomeRouter.swift */,
-				41774EA72A2F904500D83E39 /* HomePresenter.swift */,
 				41774EA92A2F906800D83E39 /* HomeInteractor.swift */,
+				41774EA72A2F904500D83E39 /* HomePresenter.swift */,
+				41774EA52A2F902C00D83E39 /* HomeRouter.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -280,6 +297,7 @@
 				41774EB02A2FBE7D00D83E39 /* HomeTableViewCell.xib */,
 				41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */,
 				41774EBB2A30B69E00D83E39 /* SearchCollectionViewCell.swift */,
+				41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -395,6 +413,7 @@
 			files = (
 				41774E532A2E84F600D83E39 /* LaunchScreen.storyboard in Resources */,
 				41774E502A2E84F600D83E39 /* Assets.xcassets in Resources */,
+				41774EC02A310C6000D83E39 /* DetailViewController.xib in Resources */,
 				41774EA42A2F900600D83E39 /* HomeViewController.xib in Resources */,
 				41774E4B2A2E84F300D83E39 /* Main.storyboard in Resources */,
 				41774EB22A2FBE7D00D83E39 /* HomeTableViewCell.xib in Resources */,
@@ -430,16 +449,21 @@
 				41774E442A2E84F300D83E39 /* AppDelegate.swift in Sources */,
 				41774E942A2F89CB00D83E39 /* LoadingShowable.swift in Sources */,
 				41774E922A2F897C00D83E39 /* LoadingView.swift in Sources */,
+				41774EBF2A310C6000D83E39 /* DetailViewController.swift in Sources */,
 				41774EA62A2F902C00D83E39 /* HomeRouter.swift in Sources */,
 				41774EAD2A2FAB9C00D83E39 /* Audios.swift in Sources */,
 				41774EB42A2FCFE000D83E39 /* HomeCellPresenter.swift in Sources */,
 				41774EA82A2F904500D83E39 /* HomePresenter.swift in Sources */,
 				41774E962A2F8ABC00D83E39 /* BaseViewController.swift in Sources */,
+				41774EC62A310C9B00D83E39 /* DetailRouter.swift in Sources */,
 				41774E462A2E84F300D83E39 /* SceneDelegate.swift in Sources */,
+				41774EC82A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift in Sources */,
 				41774E9E2A2F8DA300D83E39 /* SplashInteractor.swift in Sources */,
+				41774EC42A310C8A00D83E39 /* DetailPresenter.swift in Sources */,
 				41774E992A2F8D2800D83E39 /* SplashViewController.swift in Sources */,
 				41774E9C2A2F8D6100D83E39 /* SplashPresenter.swift in Sources */,
 				41774EB12A2FBE7D00D83E39 /* HomeTableViewCell.swift in Sources */,
+				41774EC22A310C7900D83E39 /* DetailInteractor.swift in Sources */,
 				41774EBC2A30B69E00D83E39 /* SearchCollectionViewCell.swift in Sources */,
 				41774EA32A2F900600D83E39 /* HomeViewController.swift in Sources */,
 			);

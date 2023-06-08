@@ -23,7 +23,7 @@ public struct Audio: Decodable {
     public let trackCensoredName: String?
     public let collectionArtistID: Int?
     public let collectionArtistViewURL, collectionViewURL, trackViewURL: String?
-    public let previewURL: String?
+    public let previewUrl: String?
     public let artworkUrl30, artworkUrl60, artworkUrl100: String?
     public let collectionPrice, trackPrice, trackRentalPrice, collectionHDPrice: Double?
     public let trackHDPrice, trackHDRentalPrice: Double?
@@ -49,7 +49,7 @@ public struct Audio: Decodable {
         case collectionArtistViewURL
         case collectionViewURL
         case trackViewURL
-        case previewURL
+        case previewUrl
         case artworkUrl30, artworkUrl60, artworkUrl100, collectionPrice, trackPrice, trackRentalPrice
         case collectionHDPrice
         case trackHDPrice

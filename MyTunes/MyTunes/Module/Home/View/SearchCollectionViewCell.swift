@@ -7,16 +7,20 @@
 
 import UIKit
 
+protocol SearchCollectionViewCellProtocol: AnyObject {
+    func setTitle(_ text: String)
+}
+
 class SearchCollectionViewCell: UICollectionViewCell {
-    
+
     static let reuseIdentifier = String(describing: SearchCollectionViewCell.self)
-    
-//    var viewModel: DynamicHeaderCVViewModel? {
-//        didSet {
-//            updateSubViews()
-//        }
-//    }
-    
+
+    var cellPresenter: SearchCollectionViewCellPresenterProtocol! {
+        didSet {
+            cellPresenter?.load()
+        }
+    }
+
     override var isSelected: Bool {
         didSet {
             if isSelected {
@@ -28,32 +32,32 @@ class SearchCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: .zero)
          configureSubviews()
     }
-    
-//    required init(viewModel: DynamicHeaderCVViewModel?) {
-//        self.init()
-//        self.viewModel = viewModel
-//         configureSubviews()
-//    }
-    
+
+    required init(cellPresenter: SearchCollectionViewCellPresenter?) {
+        self.init()
+        self.cellPresenter = cellPresenter
+         configureSubviews()
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.numberOfLines = 1
         view.textColor = UIColor.black
         view.font = UIFont.boldSystemFont(ofSize: 16.0)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "deneme"
+      //  view.text = "deneme"
         return view
     }()
-    
+
     private lazy var containerView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [titleLabel])
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -63,10 +67,10 @@ class SearchCollectionViewCell: UICollectionViewCell {
         view.spacing = 12.0
         view.isLayoutMarginsRelativeArrangement = true
         view.layoutMargins = UIEdgeInsets(top: 6.0, left: 12.0, bottom: 6.0, right: 12.0)
-        
+
         return view
     }()
-    
+
     private lazy var cardWidth: NSLayoutConstraint = {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         let cons = containerView.heightAnchor.constraint(equalToConstant: 1000)
@@ -80,7 +84,7 @@ extension SearchCollectionViewCell {
     static func expectedCardSize(_ targetSize: CGSize) -> CGSize {
         let view = SearchCollectionViewCell()
         let acsize = view.systemLayoutSizeFitting(CGSize(width: 0.0, height: targetSize.height), withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .required)
-        
+
         return acsize
     }
 
@@ -92,17 +96,10 @@ extension SearchCollectionViewCell {
 }
 
 extension SearchCollectionViewCell {
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        //viewModel = nil
-    }
-    
-    private func updateSubViews() {
-//        guard let vm = viewModel else {
-//            return
-//        }
-        titleLabel.text =    "label"//vm.title
+        cellPresenter = nil
     }
 }
 
@@ -113,5 +110,12 @@ private extension SearchCollectionViewCell {
         NSLayoutConstraint.activate([contentView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
         containerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)])
     }
-    
 }
+
+extension SearchCollectionViewCell: SearchCollectionViewCellProtocol {
+    func setTitle(_ text: String) {
+        titleLabel.text = text
+    }
+}
+
+

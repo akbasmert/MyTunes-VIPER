@@ -12,7 +12,11 @@ protocol HomeRouterProtocol {
 }
 
 enum HomeRoutes {
-   // case detail(source: Audio?)
+    case detail(audioURL: String?,
+                audioTitle: String?,
+                audioArtistName: String?,
+                audioImageURL: String?
+    )
 }
 
 final class HomeRouter {
@@ -35,13 +39,24 @@ final class HomeRouter {
 extension HomeRouter: HomeRouterProtocol {
     
     func navigate(_ route: HomeRoutes) {
-//        switch route {
-//        case .detail(let source):
-//
-//            let detailVC = DetailRouter.createModule()
-//            detailVC.source = source
-//            viewController?.navigationController?.pushViewController(detailVC, animated: true)
-//        }
+        
+       
+        
+        switch route {
+        case .detail(let audioURL,
+                     let audioTitle,
+                     let audioArtistName,
+                     let audioImageURL
+        ):
+            
+            let detailVC = DetailRouter.createModule()
+            detailVC.audioURL = audioURL
+            detailVC.audioTitle = audioTitle
+            detailVC.audioArtistName = audioArtistName
+            detailVC.adudioImageURL = audioImageURL
+            viewController?.navigationController?.pushViewController(detailVC, animated: true)
+            
+   
+        }
     }
-    
 }

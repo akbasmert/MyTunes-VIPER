@@ -42,6 +42,7 @@ public class AudiosService: AudiosServiceProtocol {
                 do {
                     let response = try decoder.decode(AudioResponse.self, from: data)
                     completion(.success(response.results))
+                    
                 } catch {
                     print("********JSON DECODE ERROR**********\(error.localizedDescription)")
                     completion(.failure(error))

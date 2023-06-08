@@ -33,6 +33,7 @@ extension HomeInteractor: HomeInteractorProtocol {
         service.fetchAudios(key: key) { [weak self] result in
             guard let self else { return }
             self.output?.fetchAudioOutput(result)
+            
         }
     }
 }
