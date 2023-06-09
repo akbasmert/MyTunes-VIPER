@@ -24,7 +24,6 @@ final class HomeViewController: BaseViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var uiView: UIView!
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var searchTableView: UITableView!
@@ -103,6 +102,16 @@ extension HomeViewController: HomeViewControllerProtocol {
 }
 
 extension HomeViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if tableView == self.tableView {
+            return "Sizin için"
+        } else {
+            return nil
+        }
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if tableView == self.tableView {
@@ -236,6 +245,7 @@ extension HomeViewController: UISearchBarDelegate {
 
           searchBar.text = nil // Arama metnini sıfırla
           searchBar.resignFirstResponder() // Klavyeyi kapat
+        presenter.viewDidLoad()
       }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {

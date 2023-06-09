@@ -33,7 +33,7 @@ final class HomePresenter {
     var searchSetKey: String = ""
     
     private var audios: [Audio] = []
-    var searchHeader: [String] = ["all", "music", "musicVideo", "podcast", "movie", "ebook", "tvShow"]
+    var searchHeader: [String] = ["music", "musicVideo", "movie", "ebook", "tvShow"]
     
     init(
          view: HomeViewControllerProtocol,
@@ -68,7 +68,7 @@ extension HomePresenter: HomePresenterProtocol {
         view.setupSearchTableView()
         view.setupTableView()
         view.setTitle("NYTimes Top News")
-        fetchAudios(key: "Tarkan", filterKey: "")
+        fetchAudios(key: "Tarkan", filterKey: "song")
     }
     
     func numberOfItems() -> Int {
@@ -106,16 +106,12 @@ extension HomePresenter: HomePresenterProtocol {
 
         switch index {
         case 0:
-            filterKey = ""
-        case 1:
             filterKey = "song"
-        case 2:
+        case 1:
             filterKey = "musicVideo"
-        case 3:
-            filterKey = "podcast"
-        case 4:
+        case 2:
             filterKey = "movie"
-        case 5:
+        case 3:
             filterKey = "ebook"
         default:
             filterKey = "tvEpisode"
