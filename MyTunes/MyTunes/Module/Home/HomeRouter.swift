@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+//import UIKit
 
 protocol HomeRouterProtocol {
     func navigate(_ route: HomeRoutes)
@@ -16,7 +16,8 @@ enum HomeRoutes {
     case detail(audioURL: String?,
                 audioTitle: String?,
                 audioArtistName: String?,
-                audioImageURL: String?
+                audioImageURL: String?,
+                audioTrackId: Int?
     )
 }
 
@@ -45,14 +46,16 @@ extension HomeRouter: HomeRouterProtocol {
         case .detail(let audioURL,
                      let audioTitle,
                      let audioArtistName,
-                     let audioImageURL
+                     let audioImageURL,
+                     let audioTrackId
         ):
             
             let detailVC = DetailRouter.createModule()
             detailVC.audioURL = audioURL
             detailVC.audioTitle = audioTitle
             detailVC.audioArtistName = audioArtistName
-            detailVC.adudioImageURL = audioImageURL
+            detailVC.audioImageURL = audioImageURL
+            detailVC.audioTrackId = audioTrackId
            // viewController?.navigationController?.pushViewController(detailVC, animated: true)
             
 //            if let navigationController = viewController?.navigationController {

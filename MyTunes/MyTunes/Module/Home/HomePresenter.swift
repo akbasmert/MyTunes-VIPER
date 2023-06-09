@@ -5,7 +5,6 @@
 //  Created by Mert AKBAŞ on 6.06.2023.
 //
 
-import Foundation
 import MyTunesAPI
 
 protocol HomePresenterProtocol: AnyObject {
@@ -29,6 +28,7 @@ final class HomePresenter {
     unowned var view: HomeViewControllerProtocol
     let router: HomeRouterProtocol!
     let interactor: HomeInteractorProtocol!
+    
     var filterKey: String = ""
     var searchSetKey: String = ""
     
@@ -96,7 +96,7 @@ extension HomePresenter: HomePresenterProtocol {
         router.navigate(.detail(audioURL: source.previewUrl,
                                 audioTitle: source.trackName,
                                 audioArtistName: source.artistName,
-                                audioImageURL: source.artworkUrl100
+                                audioImageURL: source.artworkUrl100, audioTrackId: source.trackId
                                ))
         print("tılandı")
         

@@ -19,6 +19,8 @@ protocol DetailViewControllerProtocol: AnyObject {
     func getAudioTitle() -> String
     func getAudioArtistNmae() -> String
     func getAudioImageURL() -> URL
+    func getAudioImageURL() -> String
+    func getTrackId() -> Int
 }
 
 final class DetailViewController: BaseViewController {
@@ -36,7 +38,8 @@ final class DetailViewController: BaseViewController {
     var audioURL: String?
     var audioTitle: String?
     var audioArtistName: String?
-    var adudioImageURL: String?
+    var audioImageURL: String?
+    var audioTrackId: Int?
     
     
     override func viewDidLoad() {
@@ -47,10 +50,10 @@ final class DetailViewController: BaseViewController {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(panGesture)
         
-//
-//        view.layer.cornerRadius = 40
-//            view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-//            view.layer.masksToBounds = true
+        viewFavoriButtonImage()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
       
     }
   
@@ -61,39 +64,11 @@ final class DetailViewController: BaseViewController {
     
     @IBAction func favoriButton(_ sender: Any) {
         setFavoriButtonImage()
+        presenter.favoriButtonTapped()
+        print(
+            CoreDataManager.shared.fetchAudioData()
+        )
     }
-    
-    
-//    @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
-//        let translation = gesture.translation(in: view)
-//
-//        switch gesture.state {
-//        case .changed:
-//            if translation.y > 0 {
-//                let cornerRadius = max(40 - (translation.y / view.bounds.height) * 40, 0) // Köşe yuvarlaklığı değerini hesaplayın ve minimum değeri 0 olarak ayarlayın
-//                view.layer.cornerRadius = cornerRadius
-//                view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner] // Sadece üst köşeleri yuvarla
-//                view.layer.masksToBounds = true
-//                view.transform = CGAffineTransform(translationX: 0, y: translation.y) // Sayfayı aşağıya kaydırın
-//
-//            }
-//        case .ended:
-//            let velocity = gesture.velocity(in: view)
-//
-//            if translation.y > 200 || velocity.y > 500 {
-//                dismiss(animated: true, completion: nil)
-//            } else {
-//                UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
-//                    self.view.transform = .identity // Sayfayı sıfır konumuna geri döndürün
-//                    self.view.layer.cornerRadius = 0 // Köşe yuvarlaklığını sıfıra ayarlayın
-//                    self.view.layer.maskedCorners = [] // Köşe yuvarlaklığı maskesini kaldırın
-//                }, completion: nil)
-//            }
-//        default:
-//            break
-//        }
-//    }
-//
 
     @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: view)
@@ -135,11 +110,9 @@ final class DetailViewController: BaseViewController {
 }
 
 extension DetailViewController: DetailViewControllerProtocol {
-    
-    func setAudioImage(_ image: UIImage) {
-        DispatchQueue.main.async {
-            self.audioImageView.image = image
-        }
+  
+    func getTrackId() -> Int {
+        audioTrackId ?? 1
     }
     
     func getAudioArtistNmae() -> String {
@@ -147,8 +120,13 @@ extension DetailViewController: DetailViewControllerProtocol {
     }
     
     func getAudioImageURL() -> URL {
-        URL(string: adudioImageURL ?? "")!
+        URL(string: audioImageURL ?? "")!
     }
+    
+    func getAudioImageURL() -> String {
+        audioImageURL ?? ""
+    }
+    
     
     func getAudioTitle() -> String {
         audioTitle ?? ""
@@ -156,6 +134,12 @@ extension DetailViewController: DetailViewControllerProtocol {
     
     func getAudioURL() -> String {
         audioURL ?? ""
+    }
+    
+    func setAudioImage(_ image: UIImage) {
+        DispatchQueue.main.async {
+            self.audioImageView.image = image
+        }
     }
     
     func setTitle(_ title: String) {
@@ -168,6 +152,14 @@ extension DetailViewController: DetailViewControllerProtocol {
     
     func setAuidoArtistName(_ text: String) {
         self.audioArtistNameLabel.text = text
+    }
+    
+    func viewFavoriButtonImage() {
+        if presenter.isTrackIdSaved(audioTrackId ?? 1) {
+            favoriButtonImage.image = UIImage(systemName: "bookmark.fill")
+        } else {
+            favoriButtonImage.image = UIImage(systemName: "bookmark")
+        }
     }
     
     func setPlayButtonImage() {
@@ -196,11 +188,11 @@ extension DetailViewController: DetailViewControllerProtocol {
     
     func setFavoriButtonImage() {
         if let currentImage = favoriButtonImage.image {
-            if currentImage == UIImage(systemName: "star.fill") {
+            if currentImage == UIImage(systemName: "bookmark.fill") {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.favoriButtonImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                 }) { (_) in
-                    self.favoriButtonImage.image = UIImage(systemName: "star")
+                    self.favoriButtonImage.image = UIImage(systemName: "bookmark")
                     UIView.animate(withDuration: 0.2) {
                         self.favoriButtonImage.transform = .identity
                     }
@@ -209,7 +201,7 @@ extension DetailViewController: DetailViewControllerProtocol {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.favoriButtonImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
                 }) { (_) in
-                    self.favoriButtonImage.image = UIImage(systemName: "star.fill")
+                    self.favoriButtonImage.image = UIImage(systemName: "bookmark.fill")
                     UIView.animate(withDuration: 0.2) {
                         self.favoriButtonImage.transform = .identity
                     }

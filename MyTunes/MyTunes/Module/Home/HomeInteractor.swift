@@ -5,7 +5,6 @@
 //  Created by Mert AKBAŞ on 6.06.2023.
 //
 
-import Foundation
 import MyTunesAPI
 
 typealias AudioResult = Result<[Audio], Error>
@@ -23,8 +22,6 @@ fileprivate var service: AudiosServiceProtocol = AudiosService()
 
 final class HomeInteractor {
     var output: HomeInteractorOutputProtocol?
-    
-   
 }
 
 extension HomeInteractor: HomeInteractorProtocol {

@@ -22,7 +22,9 @@ final class DetailRouter {
     static func createModule() -> DetailViewController {
          let view = DetailViewController()
          let router = DetailRouter()
-         let presenter = DetailPresenter(view: view, router: router)
+         let interactor = DetailInteractor()
+        
+         let presenter = DetailPresenter(view: view, router: router, interactor: interactor)
          view.presenter = presenter
          router.viewController = view
          return view
