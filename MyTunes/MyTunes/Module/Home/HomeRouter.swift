@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HomeRouterProtocol {
     func navigate(_ route: HomeRoutes)
@@ -40,8 +41,6 @@ extension HomeRouter: HomeRouterProtocol {
     
     func navigate(_ route: HomeRoutes) {
         
-       
-        
         switch route {
         case .detail(let audioURL,
                      let audioTitle,
@@ -54,9 +53,38 @@ extension HomeRouter: HomeRouterProtocol {
             detailVC.audioTitle = audioTitle
             detailVC.audioArtistName = audioArtistName
             detailVC.adudioImageURL = audioImageURL
-            viewController?.navigationController?.pushViewController(detailVC, animated: true)
+           // viewController?.navigationController?.pushViewController(detailVC, animated: true)
             
-   
+//            if let navigationController = viewController?.navigationController {
+//                detailVC.modalPresentationStyle = .fullScreen
+//                navigationController.present(detailVC, animated: true)
+//            }
+
+//            if let navigationController = viewController?.navigationController {
+//                detailVC.modalPresentationStyle = .overFullScreen
+//                navigationController.present(detailVC, animated: false) {
+//                    detailVC.view.alpha = 0.0
+//                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
+//                        detailVC.view.alpha = 1.0
+//                    }, completion: nil)
+//                }
+//            }
+            
+            // Popup olarak sayfayı açma işlemi
+//            if (viewController?.navigationController) != nil {
+//                detailVC.modalPresentationStyle = .overCurrentContext
+//                detailVC.modalTransitionStyle = .coverVertical
+//               // detailVC.view.backgroundColor = UIColor.clear
+//                viewController?.present(detailVC, animated: true, completion: nil)
+//            }
+
+            if let navigationController = viewController?.navigationController {
+                detailVC.modalPresentationStyle = .overCurrentContext
+                navigationController.present(detailVC, animated: true, completion: nil)
+            }
+
+
+
         }
     }
 }

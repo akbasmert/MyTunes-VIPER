@@ -12,6 +12,7 @@ import AVFoundation
 protocol DetailPresenterProtocol {
     func viewDidLoad()
     func tapSeeMore()
+    func playAudio(for urlString: String)
 }
 
 extension DetailPresenter {
@@ -54,10 +55,25 @@ extension DetailPresenter: DetailPresenterProtocol {
         print("****** \(view.getAudioTitle()) *********")
         print("****** \(view.getAudioArtistNmae()) *********")
         print("****** \(view.getAudioImageURL()) *********")
-        playAudio(for: view.getAudioURL())
+      //  playAudio(for: view.getAudioURL())
+        view.setTitle("deneme")
+        view.setAudioTitle(view.getAudioTitle())
+        view.setAuidoArtistName(view.getAudioArtistNmae())
+        imageSet()
     }
     
-   
+    func imageSet() {
+        ImageDownloader.shared.download(imageURL: view.getAudioImageURL()) { [weak self] data, error in
+            if let data = data {
+                if let img = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.view?.setAudioImage(img)
+                    }
+                }
+            }
+        }
+    }
+    
     func fetchAudio(for urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
             guard let audioURL = URL(string: urlString) else {
                 let error = NSError(domain: "not URL", code: 0, userInfo: nil)
@@ -82,25 +98,37 @@ extension DetailPresenter: DetailPresenterProtocol {
             task.resume()
         }
     
-
     func playAudio(for urlString: String) {
-        fetchAudio(for: urlString) { [weak self] result in
-            switch result {
-            case .success(let audioData):
-                DispatchQueue.main.async {
-                    do {
-                        self?.audioPlayer = try AVAudioPlayer(data: audioData)
-                        self?.audioPlayer?.prepareToPlay()
-                        self?.audioPlayer?.play()
-                    } catch {
-                        print("Audio player error: \(error.localizedDescription)")
+        if let audioPlayer = audioPlayer {
+            if audioPlayer.isPlaying {
+                // Müzik çalıyorsa ve tekrar çağrılırsa, müziği duraklat
+                audioPlayer.pause()
+            } else {
+                // Müzik duraklatılmışsa, kaldığı yerden devam et
+                audioPlayer.play()
+            }
+        } else {
+            // Müzik çalmıyorsa veya tekrar çağrıldıysa, müziği çal
+            fetchAudio(for: urlString) { [weak self] result in
+                switch result {
+                case .success(let audioData):
+                    DispatchQueue.main.async {
+                        do {
+                            self?.audioPlayer = try AVAudioPlayer(data: audioData)
+                            self?.audioPlayer?.prepareToPlay()
+                            self?.audioPlayer?.play()
+                        } catch {
+                            print("Audio player error: \(error.localizedDescription)")
+                        }
                     }
+                case .failure(let error):
+                    print("Audio data fetch error: \(error.localizedDescription)")
                 }
-            case .failure(let error):
-                print("Audio data fetch error: \(error.localizedDescription)")
             }
         }
     }
     
+
 }
+
 
