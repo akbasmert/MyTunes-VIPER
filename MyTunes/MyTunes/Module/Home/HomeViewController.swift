@@ -57,6 +57,9 @@ final class HomeViewController: BaseViewController {
         searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNextIndexSelected(_:)), name: Notification.Name("NextIndexSelected"), object: nil)
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPink]
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -296,13 +299,19 @@ extension HomeViewController: UISearchBarDelegate {
           searchBar.text = nil // Arama metnini sıfırla
           searchBar.resignFirstResponder() // Klavyeyi kapat
         presenter.viewDidLoad()
+        
+        let firstIndexPath = IndexPath(row: 0, section: 0)
+        tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .top)
+
       }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
           // Arama çubuğuna tıklandığında yapılacak işlemleri burada gerçekleştirin
           // Örneğin, bir işlem yapmak için başka bir fonksiyonu çağırabilirsiniz
         searchBar.showsCancelButton = true
-
+        
+        let firstIndexPath = IndexPath(item: 0, section: 0)
+        searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
 
           // true döndürerek arama çubuğunun düzenlenebilir olmasını sağlayın
           return true

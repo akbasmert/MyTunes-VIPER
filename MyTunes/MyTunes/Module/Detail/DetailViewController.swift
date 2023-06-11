@@ -35,7 +35,7 @@ final class DetailViewController: BaseViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var progressStartLabel: UILabel!
     @IBOutlet weak var progressEndLabel: UILabel!
-    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     var presenter: DetailPresenterProtocol!
@@ -55,8 +55,10 @@ final class DetailViewController: BaseViewController {
     var startTimer: Timer?
     var endTimer: Timer?
     var startCounter: Int = 0
-    var endCounter: Int = -30
+    var endCounter: Int = -28
     
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,11 +75,25 @@ final class DetailViewController: BaseViewController {
         view.addGestureRecognizer(panGesture)
         
         viewFavoriButtonImage()
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        toggleAnimation()
+        presenter.playAudio(for: audioURL ?? "")
+        setPlayButtonImage()
+        progressViewStartStop()
+        progressLabelSet()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         presenter.viewDidDisappear()
+     
     }
   
     @IBAction func playButton(_ sender: Any) {
@@ -86,8 +102,7 @@ final class DetailViewController: BaseViewController {
         presenter.playAudio(for: audioURL ?? "")
         setPlayButtonImage()
         progressViewStartStop()
-        
-         progressLabelSet()
+        progressLabelSet()
     }
     
     
@@ -250,13 +265,14 @@ final class DetailViewController: BaseViewController {
     }
 
     @objc func updateStartLabel() {
-           if startCounter <= 30 {
+           if startCounter <= 28 {
                progressStartLabel.text = "\(startCounter)"
                startCounter += 1
-              
+             
            } else {
                startTimer?.invalidate()
                startTimer = nil
+               setPlayButtonImage()
            }
        }
 
@@ -271,30 +287,10 @@ final class DetailViewController: BaseViewController {
        }
    }
 
-
-
-
-//    func progressLabelSet() {
-//        if startTimer == nil {
-//                   startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
-//               } else {
-//                   startTimer?.invalidate()
-//                   startTimer = nil
-//               }
-//
-//               if endTimer == nil {
-//                   endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
-//               } else {
-//                   endTimer?.invalidate()
-//                   endTimer = nil
-//               }
-//    }
-//
-
     func progressLabelSet() {
         if startTimer == nil {
           
-            if startCounter > 30 {
+            if startCounter > 28 {
                 startCounter = 0 // Başa dönmek için startCounter'ı sıfırla
             }
             startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
@@ -305,7 +301,7 @@ final class DetailViewController: BaseViewController {
 
         if endTimer == nil {
             if endCounter > 0 {
-                endCounter = -30 // Başa dönmek için startCounter'ı sıfırla
+                endCounter = -28 // Başa dönmek için startCounter'ı sıfırla
             }
             endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
         } else {
@@ -313,7 +309,7 @@ final class DetailViewController: BaseViewController {
             endTimer = nil
         }
     }
-
+    
 }
 
 extension DetailViewController: DetailViewControllerProtocol {
@@ -351,6 +347,7 @@ extension DetailViewController: DetailViewControllerProtocol {
     
     func setTitle(_ title: String) {
         self.title = title
+        
     }
     
     func setAudioTitle(_ text: String) {

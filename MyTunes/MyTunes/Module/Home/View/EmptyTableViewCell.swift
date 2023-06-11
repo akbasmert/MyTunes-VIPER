@@ -9,9 +9,6 @@ import UIKit
 
 class EmptyTableViewCell: UITableViewCell {
     
-  //  static let reuseIdentifier = String(describing: EmptyTableViewCell.self)
-
-    
     let customImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -27,6 +24,7 @@ class EmptyTableViewCell: UITableViewCell {
     private func setupCustomImageView() {
         customImageView.contentMode = .scaleAspectFit
         customImageView.translatesAutoresizingMaskIntoConstraints = false
+        customImageView.tintColor = .systemPink
         contentView.addSubview(customImageView)
         
         // Constraints for customImageView

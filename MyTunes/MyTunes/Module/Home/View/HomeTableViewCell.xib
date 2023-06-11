@@ -51,7 +51,7 @@
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.forward" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="mB4-rt-Ji9">
                                 <rect key="frame" x="256" y="32" width="52" height="48.333333333333329"/>
-                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" systemColor="systemPinkColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="mB4-rt-Ji9" secondAttribute="height" multiplier="1:1" id="2sY-oC-o1k"/>
                                     <constraint firstAttribute="width" secondItem="mB4-rt-Ji9" secondAttribute="height" multiplier="1:1" id="3fs-Kb-xQ9"/>
@@ -94,6 +94,9 @@
         <image name="chevron.forward" catalog="system" width="97" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
