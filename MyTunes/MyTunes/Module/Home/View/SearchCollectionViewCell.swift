@@ -24,7 +24,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                containerView.backgroundColor = .darkGray
+                containerView.backgroundColor = .systemPink
                 titleLabel.textColor = .white
             } else {
                 containerView.backgroundColor = .systemGray4

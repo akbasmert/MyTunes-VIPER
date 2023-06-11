@@ -29,21 +29,43 @@ final class DetailViewController: BaseViewController {
     @IBOutlet weak var audioTitleLabel: UILabel!
     @IBOutlet weak var audioArtistNameLabel: UILabel!
     @IBOutlet weak var playButtonImage: UIImageView!
-    
     @IBOutlet weak var favoriButtonImage: UIImageView!
+    @IBOutlet weak var nextButtonImage: UIImageView!
+    @IBOutlet weak var backButtonImage: UIImageView!
+    @IBOutlet weak var progressView: UIProgressView!
+    @IBOutlet weak var progressStartLabel: UILabel!
+    @IBOutlet weak var progressEndLabel: UILabel!
+    
+    
     
     var presenter: DetailPresenterProtocol!
-    
-   
     var audioURL: String?
     var audioTitle: String?
     var audioArtistName: String?
     var audioImageURL: String?
     var audioTrackId: Int?
+    var audioIndex: Int?
+    var maxAudioIndex: Int?
+    var isAnimating = false
     
+    var counter: Int = 0
+    var timer: Timer?
+    var previousCounter: Int = 0
+    
+    var startTimer: Timer?
+    var endTimer: Timer?
+    var startCounter: Int = 0
+    var endCounter: Int = -30
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        progressView.progress = 0.0
+                
+                progressView.layer.cornerRadius = 4
+                progressView.clipsToBounds = true
+                progressView.layer.sublayers![1].cornerRadius = 4
+                progressView.subviews[1].clipsToBounds = true
         
         presenter.viewDidLoad()
         
@@ -53,13 +75,64 @@ final class DetailViewController: BaseViewController {
         viewFavoriButtonImage()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-      
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        presenter.viewDidDisappear()
     }
   
     @IBAction func playButton(_ sender: Any) {
+      
+        toggleAnimation()
         presenter.playAudio(for: audioURL ?? "")
         setPlayButtonImage()
+        progressViewStartStop()
+        
+         progressLabelSet()
+    }
+    
+    
+    @IBAction func nextButton(_ sender: Any) {
+        
+        UIView.animate(withDuration: 0.2, animations: {
+               self.nextButtonImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+           }) { (_) in
+               UIView.animate(withDuration: 0.2) {
+                   self.nextButtonImage.transform = CGAffineTransform.identity
+               }
+           }
+        
+        print("next")
+       
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.dismiss(animated: false)
+            let nextIndex = min((self.audioIndex ?? 1) + 1, (self.maxAudioIndex ?? 1) - 1)
+            NotificationCenter.default.post(name: Notification.Name("NextIndexSelected"), object: nextIndex)
+        }
+
+        
+
+    }
+    
+    @IBAction func backButton(_ sender: Any) {
+        print("back")
+        
+        
+        UIView.animate(withDuration: 0.2, animations: {
+               self.backButtonImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+           }) { (_) in
+               UIView.animate(withDuration: 0.2) {
+                   self.backButtonImage.transform = CGAffineTransform.identity
+               }
+           }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.dismiss(animated: false)
+            var backIndex = self.audioIndex ?? 0
+            backIndex -= 1
+            backIndex = max(backIndex, 0)
+            NotificationCenter.default.post(name: Notification.Name("NextIndexSelected"), object: backIndex)
+        }
     }
     
     @IBAction func favoriButton(_ sender: Any) {
@@ -105,7 +178,141 @@ final class DetailViewController: BaseViewController {
         }
     }
 
+    func toggleAnimation() {
+        if isAnimating {
+            stopScaleAnimation()
+        } else {
+            startScaleAnimation()
+        }
+        
+        isAnimating = !isAnimating
+    }
 
+    func startScaleAnimation() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = 1.0
+        animation.toValue = 1.04
+        animation.duration = 1.0
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        animation.autoreverses = true
+        animation.repeatCount =  0// .infinity
+        
+        audioImageView.layer.add(animation, forKey: "scaleAnimation")
+    }
+
+    func stopScaleAnimation() {
+        guard let presentationLayer = audioImageView.layer.presentation() else {
+            return
+        }
+        
+        let currentScale = presentationLayer.transform.m11
+        
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = NSNumber(value: Float(currentScale))
+        animation.toValue = NSNumber(value: 1.0)
+        animation.duration = 0.3
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+        
+        audioImageView.layer.add(animation, forKey: "scaleAnimation")
+    }
+
+
+    func progressViewStartStop() {
+        if timer == nil {
+            if counter >= 100 {
+                counter = 0
+            } else {
+                counter = previousCounter
+            }
+            progressView.progress = Float(counter) / Float(100)
+            
+            let interval = 0.3 // Değişen kısım: Her 0.3 saniyede bir artış
+            timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
+                guard let self = self else { return }
+                
+                self.counter += 1
+                self.previousCounter = self.counter
+                
+                let progress = Float(self.counter) / Float(100)
+                self.progressView.setProgress(progress, animated: true)
+                
+                if self.counter >= 100 {
+                    timer.invalidate()
+                    self.timer = nil
+                }
+            }
+        } else {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
+
+    @objc func updateStartLabel() {
+           if startCounter <= 30 {
+               progressStartLabel.text = "\(startCounter)"
+               startCounter += 1
+              
+           } else {
+               startTimer?.invalidate()
+               startTimer = nil
+           }
+       }
+
+   @objc func updateEndLabel() {
+       if endCounter <= 0 {
+           progressEndLabel.text = "\(endCounter)"
+           endCounter += 1
+
+       } else {
+           endTimer?.invalidate()
+           endTimer = nil
+       }
+   }
+
+
+
+
+//    func progressLabelSet() {
+//        if startTimer == nil {
+//                   startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
+//               } else {
+//                   startTimer?.invalidate()
+//                   startTimer = nil
+//               }
+//
+//               if endTimer == nil {
+//                   endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
+//               } else {
+//                   endTimer?.invalidate()
+//                   endTimer = nil
+//               }
+//    }
+//
+
+    func progressLabelSet() {
+        if startTimer == nil {
+          
+            if startCounter > 30 {
+                startCounter = 0 // Başa dönmek için startCounter'ı sıfırla
+            }
+            startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
+        } else {
+            startTimer?.invalidate()
+            startTimer = nil
+        }
+
+        if endTimer == nil {
+            if endCounter > 0 {
+                endCounter = -30 // Başa dönmek için startCounter'ı sıfırla
+            }
+            endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
+        } else {
+            endTimer?.invalidate()
+            endTimer = nil
+        }
+    }
 
 }
 

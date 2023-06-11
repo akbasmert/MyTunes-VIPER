@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NotificationCenter
 
 protocol HomeViewControllerProtocol: AnyObject {
    
@@ -28,6 +29,8 @@ final class HomeViewController: BaseViewController {
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var searchTableView: UITableView!
     
+    
+    
     var presenter: HomePresenterProtocol!
     var timer: Timer?
    
@@ -35,11 +38,16 @@ final class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
+        
         // Do any additional setup after loading the view.
         presenter.viewDidLoad()
        
         searchBar.delegate = self
        
+        tableView.register(EmptyTableViewCell.self, forCellReuseIdentifier: "EmptyCell")
+        searchTableView.register(EmptyTableViewCell.self, forCellReuseIdentifier: "EmptyCell")
+
         searchCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
         searchCollectionView.dataSource = self
         searchCollectionView.delegate = self
@@ -47,8 +55,24 @@ final class HomeViewController: BaseViewController {
         
         let firstIndexPath = IndexPath(item: 0, section: 0)
         searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNextIndexSelected(_:)), name: Notification.Name("NextIndexSelected"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        presenter.viewWillAppear()
+    }
+    
+    @objc func handleNextIndexSelected(_ notification: Notification) {
+        if let nextIndex = notification.object as? Int {
+            // Burada sonraki index ile yapılması gereken işlemleri gerçekleştirin
+            // Örneğin, didSelectRowAt işlevine benzer şekilde bir sonraki hücreye geçiş yapabilirsiniz
+            
+            print("bildirim geldi")
+            presenter.didSelectRowAt(index: nextIndex)
+        }
+    }
+
    
 }
 
@@ -114,40 +138,54 @@ extension HomeViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if tableView == self.tableView {
-           return presenter.numberOfItems()
+        if presenter.numberOfItems() == 0 {
+           
+            return 1
+        } else {
+            if tableView == self.tableView {
+               return presenter.numberOfItems()
+            }
+            return presenter.numberOfItems()
         }
-        return presenter.numberOfItems()
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as! HomeTableViewCell
-        
-        
+       
         if tableView == self.tableView {
           
-             if let audios = presenter.audios(indexPath.row) {
-                 cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
-               //  print(audios)
-             }
-            
-            
-             cell.selectionStyle = .none
-            
-            return cell
-            
-        } else {
-            if let audios = presenter.audios(indexPath.row) {
-                cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
-              //  print(audios)
+            if presenter.numberOfItems() == 0 {
+                let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyCell") as! EmptyTableViewCell
+                emptyCell.selectionStyle = .none
+                return emptyCell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as! HomeTableViewCell
+                
+                if let audios = presenter.audios(indexPath.row) {
+                    cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
+                  //  print(audios)
+                }
+                cell.selectionStyle = .none
+               return cell
             }
            
-           
-            cell.selectionStyle = .none
-           
-           return cell
+            
+        } else {
+            
+            if presenter.numberOfItems() == 0 {
+                let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyCell") as! EmptyTableViewCell
+                emptyCell.selectionStyle = .none
+                return emptyCell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as! HomeTableViewCell
+                
+                if let audios = presenter.audios(indexPath.row) {
+                    cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
+                  //  print(audios)
+                }
+                cell.selectionStyle = .none
+               return cell
+            }
         }
     }
 }
@@ -156,13 +194,18 @@ extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView == self.tableView {
-            presenter.didSelectRowAt(index: indexPath.row)
-            
+        if presenter.numberOfItems() == 0 {
+           
         } else {
-            presenter.didSelectRowAt(index: indexPath.row)
+            if tableView == self.tableView {
+                presenter.didSelectRowAt(index: indexPath.row)
+                
+            } else {
+                presenter.didSelectRowAt(index: indexPath.row)
 
+            }
         }
+       
        
     }
     
@@ -171,7 +214,12 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        
+        if presenter.numberOfItems() == 0 {
+            return tableView.frame.size.height
+        } else {
+            return 80
+        }
     }
 }
 
@@ -191,6 +239,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
         searchCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
         if searchTableView.numberOfRows(inSection: 0) > 0 {
             let indexPathTableView = IndexPath(row: 0, section: 0)

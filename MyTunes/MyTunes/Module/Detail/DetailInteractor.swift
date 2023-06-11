@@ -13,6 +13,7 @@ protocol DetailInteractorProtocol {
     func deleteAudioData(trackId: Int)
     func saveAudioData(trackId: Int)
     func playAudio(for urlString: String)
+    func stopAudio()
 }
 
 final class DetailInteractor {
@@ -45,6 +46,11 @@ final class DetailInteractor {
 }
 
 extension DetailInteractor: DetailInteractorProtocol {
+    
+    func stopAudio() {
+        audioPlayer?.stop()
+    }
+    
     func fetchAudioData() -> [Int] {
         let favoriTrackIds = CoreDataManager.shared.fetchAudioData()
         return favoriTrackIds

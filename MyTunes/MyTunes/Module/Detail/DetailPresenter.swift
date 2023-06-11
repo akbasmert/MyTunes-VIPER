@@ -10,6 +10,7 @@ import MyTunesAPI
 
 protocol DetailPresenterProtocol {
     func viewDidLoad()
+    func viewDidDisappear()
     func playAudio(for urlString: String)
     func favoriButtonTapped()
     func isTrackIdSaved(_ trackId: Int) -> Bool 
@@ -69,6 +70,10 @@ extension DetailPresenter: DetailPresenterProtocol {
         view.setAuidoArtistName(view.getAudioArtistNmae())
         imageSet()
         
+    }
+    
+    func viewDidDisappear() {
+        interactor.stopAudio()
     }
     
     func imageSet() {

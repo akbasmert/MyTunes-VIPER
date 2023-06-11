@@ -42,6 +42,7 @@
 		41774EC62A310C9B00D83E39 /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC52A310C9B00D83E39 /* DetailRouter.swift */; };
 		41774EC82A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */; };
 		41774ED92A338CA500D83E39 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774ED82A338CA500D83E39 /* CoreDataManager.swift */; };
+		41774EDF2A349BDC00D83E39 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EDE2A349BDC00D83E39 /* EmptyTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		41774EC52A310C9B00D83E39 /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
 		41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCellPresenter.swift; sourceTree = "<group>"; };
 		41774ED82A338CA500D83E39 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		41774EDE2A349BDC00D83E39 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +292,7 @@
 				41774EB32A2FCFE000D83E39 /* HomeCellPresenter.swift */,
 				41774EBB2A30B69E00D83E39 /* SearchCollectionViewCell.swift */,
 				41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */,
+				41774EDE2A349BDC00D83E39 /* EmptyTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				41774EB12A2FBE7D00D83E39 /* HomeTableViewCell.swift in Sources */,
 				41774EC22A310C7900D83E39 /* DetailInteractor.swift in Sources */,
 				41774EBC2A30B69E00D83E39 /* SearchCollectionViewCell.swift in Sources */,
+				41774EDF2A349BDC00D83E39 /* EmptyTableViewCell.swift in Sources */,
 				41774EA32A2F900600D83E39 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,7 +653,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -677,7 +681,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

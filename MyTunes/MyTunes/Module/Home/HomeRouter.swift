@@ -17,7 +17,9 @@ enum HomeRoutes {
                 audioTitle: String?,
                 audioArtistName: String?,
                 audioImageURL: String?,
-                audioTrackId: Int?
+                audioTrackId: Int?,
+                audioIndex: Int?,
+                audioMaxIndex: Int?
     )
 }
 
@@ -47,7 +49,9 @@ extension HomeRouter: HomeRouterProtocol {
                      let audioTitle,
                      let audioArtistName,
                      let audioImageURL,
-                     let audioTrackId
+                     let audioTrackId,
+                     let index,
+                     let maxIndex
         ):
             
             let detailVC = DetailRouter.createModule()
@@ -56,6 +60,8 @@ extension HomeRouter: HomeRouterProtocol {
             detailVC.audioArtistName = audioArtistName
             detailVC.audioImageURL = audioImageURL
             detailVC.audioTrackId = audioTrackId
+            detailVC.audioIndex = index
+            detailVC.maxAudioIndex = maxIndex
            // viewController?.navigationController?.pushViewController(detailVC, animated: true)
             
 //            if let navigationController = viewController?.navigationController {
@@ -83,7 +89,7 @@ extension HomeRouter: HomeRouterProtocol {
 
             if let navigationController = viewController?.navigationController {
                 detailVC.modalPresentationStyle = .overCurrentContext
-                navigationController.present(detailVC, animated: true, completion: nil)
+                navigationController.present(detailVC, animated: false, completion: nil)
             }
 
 

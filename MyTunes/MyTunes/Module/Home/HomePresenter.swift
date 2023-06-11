@@ -9,6 +9,7 @@ import MyTunesAPI
 
 protocol HomePresenterProtocol: AnyObject {
     func viewDidLoad()
+    func viewWillAppear()
     func numberOfItems() -> Int
     func titleNumberOfItems() -> Int
     func titleString(index: Int) -> String?
@@ -33,7 +34,7 @@ final class HomePresenter {
     var searchSetKey: String = ""
     
     private var audios: [Audio] = []
-    var searchHeader: [String] = ["music", "musicVideo", "movie", "ebook", "tvShow"]
+    var searchHeader: [String] = ["music", "musicVideo", "movie", "ebook", "podcast", "tvShow", "software"]
     
     init(
          view: HomeViewControllerProtocol,
@@ -67,8 +68,12 @@ extension HomePresenter: HomePresenterProtocol {
     func viewDidLoad() {
         view.setupSearchTableView()
         view.setupTableView()
-        view.setTitle("NYTimes Top News")
-        fetchAudios(key: "Tarkan", filterKey: "song")
+        view.setTitle("My Tunes")
+        fetchAudios(key: "Aşkın olayım", filterKey: "song")
+    }
+    
+    func viewWillAppear() {
+        fetchAudios(key: "Aşkın olayım", filterKey: "song")
     }
     
     func numberOfItems() -> Int {
@@ -92,11 +97,15 @@ extension HomePresenter: HomePresenterProtocol {
     }
     
     func didSelectRowAt(index: Int) {
+    
         guard let source = audios(index) else { return }
         router.navigate(.detail(audioURL: source.previewUrl,
                                 audioTitle: source.trackName,
                                 audioArtistName: source.artistName,
-                                audioImageURL: source.artworkUrl100, audioTrackId: source.trackId
+                                audioImageURL: source.artworkUrl100,
+                                audioTrackId: source.trackId,
+                                audioIndex: index,
+                                audioMaxIndex: audios.count
                                ))
         print("tılandı")
         
@@ -113,6 +122,10 @@ extension HomePresenter: HomePresenterProtocol {
             filterKey = "movie"
         case 3:
             filterKey = "ebook"
+        case 4:
+            filterKey = "podcast"
+        case 5:
+            filterKey = "software"
         default:
             filterKey = "tvEpisode"
         }
@@ -138,7 +151,8 @@ extension HomePresenter: HomeInteractorOutputProtocol {
             view.searchReloadData()
             view.reloadData()
         case .failure(let error):
-            view.showError(error.localizedDescription)
+           // view.showError(error.localizedDescription)
+            print(error.localizedDescription)
         }
     }
 }

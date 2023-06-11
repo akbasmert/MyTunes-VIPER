@@ -27,7 +27,9 @@ final class SplashViewController: BaseViewController {
 extension SplashViewController: SplashViewControllerProtocol {
     
     func noInternetConnection() {
-        showAlert("Error", "No internet")
+        DispatchQueue.main.async {
+            self.showAlert("Error", "No internet")
+        }
     }
     
 }
