@@ -42,10 +42,8 @@ extension HomeCellPresenter: HomeCellPresenterProtocol {
             }
         }
 
-        
         view?.setTitle(audios.trackName ?? "")
         view?.setAuthor(audios.artistName ?? "")
         
     }
-    
 }

@@ -322,8 +322,19 @@ extension DetailViewController: DetailViewControllerProtocol {
         audioArtistName ?? ""
     }
     
+//    func getAudioImageURL() -> URL {
+//        URL(string: audioImageURL ?? "")!
+//
+//    }
+    
     func getAudioImageURL() -> URL {
-        URL(string: audioImageURL ?? "")!
+        var modifiedURLString = audioImageURL ?? ""
+        
+        if let range = modifiedURLString.range(of: "100x100bb.jpg") {
+            modifiedURLString.replaceSubrange(range, with: "500x500bb.jpg")
+        }
+        
+        return URL(string: modifiedURLString)!
     }
     
     func getAudioImageURL() -> String {
