@@ -151,11 +151,12 @@ final class DetailViewController: BaseViewController {
     }
     
     @IBAction func favoriButton(_ sender: Any) {
-        setFavoriButtonImage()
-        presenter.favoriButtonTapped()
-        print(
-            CoreDataManager.shared.fetchAudioData()
-        )
+        if presenter.isTrackIdSaved(audioTrackId ?? 1) {
+            showAlert(title: "Uyarı", message: "Favorilerden kaldırılacak emin misiniz?")
+        }else {
+            setFavoriButtonImage()
+            presenter.favoriButtonTapped()
+        }
     }
 
     @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
@@ -309,6 +310,24 @@ final class DetailViewController: BaseViewController {
             endTimer = nil
         }
     }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Evet", style: .default) { _ in
+            self.setFavoriButtonImage()
+            self.presenter.favoriButtonTapped()
+        }
+        alertController.addAction(yesAction)
+        
+        let noAction = UIAlertAction(title: "Hayır", style: .destructive, handler: nil)
+        alertController.addAction(noAction)
+        
+        self.present(alertController, animated: true)
+    }
+
     
 }
 
