@@ -146,8 +146,6 @@ extension HomePresenter: HomeInteractorOutputProtocol {
         switch result {
         case .success(let response):
             self.audios = response
-           
-            
             view.searchReloadData()
             view.reloadData()
         case .failure(let error):

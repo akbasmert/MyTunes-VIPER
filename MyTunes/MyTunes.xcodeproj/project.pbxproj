@@ -43,6 +43,11 @@
 		41774EC82A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */; };
 		41774ED92A338CA500D83E39 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774ED82A338CA500D83E39 /* CoreDataManager.swift */; };
 		41774EDF2A349BDC00D83E39 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EDE2A349BDC00D83E39 /* EmptyTableViewCell.swift */; };
+		41774EE22A37BE4C00D83E39 /* MockHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EE12A37BE4C00D83E39 /* MockHomeInteractor.swift */; };
+		41774EE42A37BE6B00D83E39 /* MockHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EE32A37BE6B00D83E39 /* MockHomeViewController.swift */; };
+		41774EE62A37BE8200D83E39 /* MockHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EE52A37BE8200D83E39 /* MockHomeRouter.swift */; };
+		41774EE82A37BEBE00D83E39 /* HomePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41774EE72A37BEBE00D83E39 /* HomePresenterTests.swift */; };
+		41774EEA2A37BEFC00D83E39 /* Audios.json in Resources */ = {isa = PBXBuildFile; fileRef = 41774EE92A37BEFC00D83E39 /* Audios.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +108,11 @@
 		41774EC72A31EDE400D83E39 /* SearchCollectionViewCellPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCellPresenter.swift; sourceTree = "<group>"; };
 		41774ED82A338CA500D83E39 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		41774EDE2A349BDC00D83E39 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
+		41774EE12A37BE4C00D83E39 /* MockHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeInteractor.swift; sourceTree = "<group>"; };
+		41774EE32A37BE6B00D83E39 /* MockHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeViewController.swift; sourceTree = "<group>"; };
+		41774EE52A37BE8200D83E39 /* MockHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeRouter.swift; sourceTree = "<group>"; };
+		41774EE72A37BEBE00D83E39 /* HomePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterTests.swift; sourceTree = "<group>"; };
+		41774EE92A37BEFC00D83E39 /* Audios.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Audios.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +183,7 @@
 		41774E5C2A2E84F600D83E39 /* MyTunesTests */ = {
 			isa = PBXGroup;
 			children = (
+				41774EE02A37B50800D83E39 /* Mock */,
 				41774E5D2A2E84F600D83E39 /* MyTunesTests.swift */,
 			);
 			path = MyTunesTests;
@@ -305,6 +316,18 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		41774EE02A37B50800D83E39 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				41774EE92A37BEFC00D83E39 /* Audios.json */,
+				41774EE12A37BE4C00D83E39 /* MockHomeInteractor.swift */,
+				41774EE32A37BE6B00D83E39 /* MockHomeViewController.swift */,
+				41774EE52A37BE8200D83E39 /* MockHomeRouter.swift */,
+				41774EE72A37BEBE00D83E39 /* HomePresenterTests.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -428,6 +451,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41774EEA2A37BEFC00D83E39 /* Audios.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,7 +501,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41774EE42A37BE6B00D83E39 /* MockHomeViewController.swift in Sources */,
 				41774E5E2A2E84F600D83E39 /* MyTunesTests.swift in Sources */,
+				41774EE22A37BE4C00D83E39 /* MockHomeInteractor.swift in Sources */,
+				41774EE82A37BEBE00D83E39 /* HomePresenterTests.swift in Sources */,
+				41774EE62A37BE8200D83E39 /* MockHomeRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
