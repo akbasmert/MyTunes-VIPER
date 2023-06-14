@@ -18,7 +18,13 @@ class HomeTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
+    @IBOutlet weak var playUIView: UIView!
+    @IBOutlet weak var playImage: UIImageView!
+    
     static let reuseIdentifier = String(describing: HomeTableViewCell.self)
+
+    var playingIndexPath: IndexPath?
+
     
     var cellPresenter: HomeCellPresenterProtocol! {
         didSet {
@@ -30,18 +36,70 @@ class HomeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        UIView.animate(withDuration: 0.5) {
-            self.transform = CGAffineTransform.identity
-        }
+//        self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//        UIView.animate(withDuration: 0.5) {
+//            self.transform = CGAffineTransform.identity
+//        }
+        playImage.image = UIImage(systemName: "play.fill")
+       
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
+//        if selected {
+//               // Hücre seçildiyse yapılacak işlemler
+//               cellPresenter?.stopAudio()
+//               setPlayButtonImage()
+//           } else {
+//               // Hücre seçimi kaldırıldıysa yapılacak işlemler
+//               setPlayButtonImage()
+//           }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        playImage.image = UIImage(systemName: "play.fill")
+    }
+
+    @IBAction func playButton(_ sender: Any) {
+        print("tıklandı")
+      //  NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)
+
+            
+      //  DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {  }
+            self.setPlayButtonImage()
+            self.cellPresenter?.playAudio(for: self.cellPresenter.getAudioURL())
+      
+    
+    }
+    
+   
+    
+    func setPlayButtonImage() {
+        if let currentImage = playImage.image {
+            if currentImage == UIImage(systemName: "pause.fill") {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.playImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                }) { (_) in
+                    self.playImage.image = UIImage(systemName: "play.fill")
+                    UIView.animate(withDuration: 0.2) {
+                        self.playImage.transform = .identity
+                    }
+                }
+            } else {
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.playImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                }) { (_) in
+                    self.playImage.image = UIImage(systemName: "pause.fill")
+                    UIView.animate(withDuration: 0.2) {
+                        self.playImage.transform = .identity
+                    }
+                }
+            }
+        }
+    }
+    
+
 }
 
 

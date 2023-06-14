@@ -35,9 +35,11 @@ final class HomeViewController: BaseViewController {
     var timer: Timer?
    
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(playButtonTapped(_:)), name: NSNotification.Name("PlayButtonTapped"), object: nil)
 
         
         // Do any additional setup after loading the view.
@@ -59,7 +61,7 @@ final class HomeViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNextIndexSelected(_:)), name: Notification.Name("NextIndexSelected"), object: nil)
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPink]
-
+         setAccessiblityIdentifiers() 
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +78,16 @@ final class HomeViewController: BaseViewController {
         }
     }
 
-   
+    
+    @objc func playButtonTapped(_ notification: Notification) {
+       
+            tableView.reloadData()
+      
+    }
+    
+    
+ 
+ 
 }
 
 extension HomeViewController: HomeViewControllerProtocol {
@@ -163,12 +174,14 @@ extension HomeViewController: UITableViewDataSource {
                 return emptyCell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as! HomeTableViewCell
-                
+             
                 if let audios = presenter.audios(indexPath.row) {
+                   
                     cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
                   //  print(audios)
                 }
                 cell.selectionStyle = .none
+            
                return cell
             }
            
@@ -181,8 +194,9 @@ extension HomeViewController: UITableViewDataSource {
                 return emptyCell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.reuseIdentifier, for: indexPath) as! HomeTableViewCell
-                
+               
                 if let audios = presenter.audios(indexPath.row) {
+                    
                     cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
                   //  print(audios)
                 }
@@ -200,6 +214,7 @@ extension HomeViewController: UITableViewDelegate {
         if presenter.numberOfItems() == 0 {
            
         } else {
+            
             if tableView == self.tableView {
                 presenter.didSelectRowAt(index: indexPath.row)
                 
@@ -207,6 +222,7 @@ extension HomeViewController: UITableViewDelegate {
                 presenter.didSelectRowAt(index: indexPath.row)
 
             }
+            tableView.reloadData()
         }
        
        
@@ -317,4 +333,13 @@ extension HomeViewController: UISearchBarDelegate {
           return true
       }
       
+}
+
+extension HomeViewController {
+    func setAccessiblityIdentifiers() {
+        searchBar.accessibilityIdentifier = "searchBar"
+        tableView.accessibilityIdentifier = "tableView"
+        searchTableView.accessibilityIdentifier = "searchTableView"
+        searchCollectionView.accessibilityIdentifier = "searchCollectionView"
+    }
 }

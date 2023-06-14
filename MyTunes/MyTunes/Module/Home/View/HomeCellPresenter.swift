@@ -7,15 +7,21 @@
 
 import UIKit
 import MyTunesAPI
+import AVFoundation
 
 protocol HomeCellPresenterProtocol: AnyObject {
     func load()
+    func playAudio(for urlString: String)
+    func stopAudio()
+    func getAudioURL() -> String
 }
 
 final class HomeCellPresenter {
     
     weak var view: HomeCellProtocol?
     private let audios: Audio
+    var audioPlayer: AVAudioPlayer?
+
     
     init(
         view: HomeCellProtocol?,
@@ -24,10 +30,36 @@ final class HomeCellPresenter {
         self.view = view
         self.audios = audios
     }
+    
+    func fetchAudio(for urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+            guard let audioURL = URL(string: urlString) else {
+                let error = NSError(domain: "not URL", code: 0, userInfo: nil)
+                completion(.failure(error))
+                return
+                }
+            
+            let session = URLSession.shared
+            let task = session.dataTask(with: audioURL) { (data, response, error) in
+                if let error = error {
+                completion(.failure(error))
+                return
+                }
+                
+            guard let audioData = data else {
+                let error = NSError(domain: "Data Error", code: 0, userInfo: nil)
+                completion(.failure(error))
+                return
+                }
+                completion(.success(audioData))
+            }
+            task.resume()
+        }
 }
 
 extension HomeCellPresenter: HomeCellPresenterProtocol {
    
+   
+    
     func load() {
         
         ImageDownloader.shared.image(news: audios) { [weak self] data, error in
@@ -44,6 +76,42 @@ extension HomeCellPresenter: HomeCellPresenterProtocol {
 
         view?.setTitle(audios.trackName ?? "")
         view?.setAuthor(audios.artistName ?? "")
+    }
+    
+    func getAudioURL() -> String {
+        audios.previewUrl ?? ""
+    }
+    
+    func stopAudio() {
+        audioPlayer?.stop()
+    }
+    
+    
+    func playAudio(for urlString: String) {
         
+        if let audioPlayer = audioPlayer {
+            if audioPlayer.isPlaying {
+                audioPlayer.pause()
+            } else {
+                audioPlayer.play()
+            }
+        } else {
+            fetchAudio(for: urlString) { [weak self] result in
+                switch result {
+                case .success(let audioData):
+                    DispatchQueue.main.async {
+                        do {
+                            self?.audioPlayer = try AVAudioPlayer(data: audioData)
+                            self?.audioPlayer?.prepareToPlay()
+                            self?.audioPlayer?.play()
+                        } catch {
+                            print("Audio player error: \(error.localizedDescription)")
+                        }
+                    }
+                case .failure(let error):
+                    print("Audio data fetch error: \(error.localizedDescription)")
+                }
+            }
+        }
     }
 }

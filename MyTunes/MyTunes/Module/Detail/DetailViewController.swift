@@ -14,7 +14,6 @@ protocol DetailViewControllerProtocol: AnyObject {
     func setAuidoArtistName(_ text: String)
     func setPlayButtonImage()
     func setAudioImage(_ image: UIImage)
-    
     func getAudioURL() -> String
     func getAudioTitle() -> String
     func getAudioArtistNmae() -> String
@@ -61,6 +60,10 @@ final class DetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        audioImageView.accessibilityIdentifier = "audioImageView"
+        audioTitleLabel.accessibilityIdentifier = "audioTitleLabel"
+        audioArtistNameLabel.accessibilityIdentifier = "audioArtistNameLabel"
         
         progressView.progress = 0.0
                 
@@ -207,8 +210,8 @@ final class DetailViewController: BaseViewController {
     func startScaleAnimation() {
         let animation = CABasicAnimation(keyPath: "transform.scale")
         animation.fromValue = 1.0
-        animation.toValue = 1.04
-        animation.duration = 1.0
+        animation.toValue = 1.1
+        animation.duration = 1
         animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         animation.autoreverses = true
         animation.repeatCount =  0// .infinity

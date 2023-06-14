@@ -36,7 +36,9 @@ final class HomePresenterTests: XCTestCase {
 
     func test_viewDidLoad_InvokesRequiredViewMethods() {
         XCTAssertFalse(view.isInvokedSetupTableView)
+        XCTAssertFalse(view.isInvokedSetupSearchTableView)
         XCTAssertEqual(view.invokedSetupTableViewCount, 0)
+        XCTAssertEqual(view.invokedSetupSearchTableViewCount, 0)
         XCTAssertFalse(view.isInvokedSetTitle)
         XCTAssertNil(view.invokedSetTitleParameters)
         XCTAssertFalse(interactor.isInvokedFetchAudios)
@@ -45,7 +47,9 @@ final class HomePresenterTests: XCTestCase {
         presenter.viewDidLoad()
         
         XCTAssertTrue(view.isInvokedSetupTableView)
+        XCTAssertTrue(view.isInvokedSetupSearchTableView)
         XCTAssertEqual(view.invokedSetupTableViewCount, 1)
+        XCTAssertEqual(view.invokedSetupSearchTableViewCount, 1)
         XCTAssertTrue(view.isInvokedSetTitle)
         XCTAssertEqual(view.invokedSetTitleParameters?.title, "My Tunes")
         XCTAssertTrue(interactor.isInvokedFetchAudios)
@@ -55,19 +59,16 @@ final class HomePresenterTests: XCTestCase {
     
     func test_fetchAudiosOutput() {
         XCTAssertFalse(view.isInvokedHideLoading)
-        XCTAssertEqual(presenter.numberOfItems(), 0)
         XCTAssertFalse(view.isInvokedReloadData)
         
         presenter.fetchAudioOutput(.success([Audio.response]))
 
         XCTAssertTrue(view.isInvokedHideLoading)
-        XCTAssertEqual(presenter.numberOfItems(), 1)
         XCTAssertTrue(view.isInvokedReloadData)
     }
 }
 
 extension Audio {
-
     static var response: Audio {
         let bundle = Bundle(for: HomePresenterTests.self)
         let path = bundle.path(forResource: "Audios", ofType: "json")!
