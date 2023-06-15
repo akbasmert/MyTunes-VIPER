@@ -24,7 +24,6 @@ final class HomeCellPresenter {
     static var cellAudioPlayer: AVAudioPlayer?
     static var cellAudioURL: String?
 
-    
     var currentAudioURL: String? // Şu anda çalınan şarkının URL'sini takip etmek için bir değişken ekleyin
     
     init(
@@ -80,49 +79,13 @@ extension HomeCellPresenter: HomeCellPresenterProtocol {
     func getAudioURL() -> String {
         audios.previewUrl ?? ""
     }
-//
-//    func stopAudio() {
-//        audioPlayer?.stop()
-//    }
-//
-//    func playAudio(for urlString: String) {
-//
-//        if let audioPlayer = audioPlayer {
-//            if audioPlayer.isPlaying {
-//                audioPlayer.pause()
-//            } else {
-//                audioPlayer.play()
-//            }
-//        } else {
-//            fetchAudio(for: urlString) { [weak self] result in
-//                switch result {
-//                case .success(let audioData):
-//                    DispatchQueue.main.async {
-//                        do {
-//                            self?.audioPlayer = try AVAudioPlayer(data: audioData)
-//                            self?.audioPlayer?.prepareToPlay()
-//                            self?.audioPlayer?.play()
-//                        } catch {
-//                            print("Audio player error: \(error.localizedDescription)")
-//                        }
-//                    }
-//                case .failure(let error):
-//                    print("Audio data fetch error: \(error.localizedDescription)")
-//                }
-//            }
-//        }
-//    }
 
- 
-
-    
     func stopAudio() {
         HomeCellPresenter.cellAudioPlayer?.stop()
     }
 
     func playAudio(for urlString: String) {
 
-        
         if HomeCellPresenter.cellAudioURL == urlString {
             if let audioPlayer = HomeCellPresenter.cellAudioPlayer {
                 if audioPlayer.isPlaying {
@@ -175,13 +138,7 @@ extension HomeCellPresenter: HomeCellPresenterProtocol {
                     }
                 }
             }
-            
         }
         HomeCellPresenter.cellAudioURL = urlString
-    
     }
-
-
-
-
 }

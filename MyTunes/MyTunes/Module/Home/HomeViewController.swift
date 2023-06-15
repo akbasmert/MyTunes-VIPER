@@ -30,7 +30,7 @@ final class HomeViewController: BaseViewController {
     @IBOutlet weak var searchTableView: UITableView!
     
     var presenter: HomePresenterProtocol!
-    var timer: Timer?
+    private var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,8 +250,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             searchTableView.scrollToRow(at: indexPathTableView, at: .top, animated: true)
         }
         presenter.titleDidSelectRowAt(index: indexPath.row)
-        print(presenter.searchKey)
-        print(presenter.getFilterKey)
         self.presenter.fetchAudios(key: presenter.searchKey, filterKey: presenter.getFilterKey)
             tableView.reloadData()
     }

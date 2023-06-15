@@ -26,7 +26,6 @@ public class AudiosService: AudiosServiceProtocol {
             // Encoding error
             return
         }
-        
         let urlString = "https://itunes.apple.com/search?term=\(encodedKey)&country=tr&entity=\(filterKey)"
         guard let url = URL(string: urlString) else { return}
         

@@ -45,14 +45,14 @@ final class DetailViewController: BaseViewController {
     var audioTrackId: Int?
     var audioIndex: Int?
     var maxAudioIndex: Int?
-    var isAnimating: Bool = false
-    var counter: Int = 0
-    var timer: Timer?
-    var previousCounter: Int = 0
-    var startTimer: Timer?
-    var endTimer: Timer?
-    var startCounter: Int = 0
-    var endCounter: Int = -28
+    private var isAnimating: Bool = false
+    private var counter: Int = 0
+    private var timer: Timer?
+    private var previousCounter: Int = 0
+    private var startTimer: Timer?
+    private var endTimer: Timer?
+    private var startCounter: Int = 0
+    private var endCounter: Int = -28
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,6 +127,115 @@ final class DetailViewController: BaseViewController {
         }
     }
 
+    private func toggleAnimation() {
+        if isAnimating {
+            stopScaleAnimation()
+        } else {
+            startScaleAnimation()
+        }
+        isAnimating = !isAnimating
+    }
+
+    private func startScaleAnimation() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = 1.0
+        animation.toValue = 1.05
+        animation.duration = 1
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        animation.autoreverses = true
+        animation.repeatCount =  0
+        
+        audioImageView.layer.add(animation, forKey: "scaleAnimation")
+    }
+
+    private func stopScaleAnimation() {
+        guard let presentationLayer = audioImageView.layer.presentation() else {
+            return
+        }
+        
+        let currentScale = presentationLayer.transform.m11
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.fromValue = NSNumber(value: Float(currentScale))
+        animation.toValue = NSNumber(value: 1.0)
+        animation.duration = 0.3
+        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+        
+        audioImageView.layer.add(animation, forKey: "scaleAnimation")
+    }
+
+
+    private func progressViewStartStop() {
+        if timer == nil {
+            if counter >= 100 {
+                counter = 0
+            } else {
+                counter = previousCounter
+            }
+            progressView.progress = Float(counter) / Float(100)
+            
+            let interval = 0.3
+            timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
+                guard let self = self else { return }
+                
+                self.counter += 1
+                self.previousCounter = self.counter
+                
+                let progress = Float(self.counter) / Float(100)
+                self.progressView.setProgress(progress, animated: true)
+                
+                if self.counter >= 100 {
+                    timer.invalidate()
+                    self.timer = nil
+                }
+            }
+        } else {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
+    
+    private func progressLabelSet() {
+        if startTimer == nil {
+          
+            if startCounter > 28 {
+                startCounter = 0
+            }
+            startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
+        } else {
+            startTimer?.invalidate()
+            startTimer = nil
+        }
+
+        if endTimer == nil {
+            if endCounter > 0 {
+                endCounter = -28
+            }
+            endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
+        } else {
+            endTimer?.invalidate()
+            endTimer = nil
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Okey", style: .default) { _ in
+            self.setFavoriButtonImage()
+            self.presenter.favoriButtonTapped()
+        }
+        alertController.addAction(yesAction)
+        
+        let noAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alertController.addAction(noAction)
+        
+        self.present(alertController, animated: true)
+    }
+    
     @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: view)
 
@@ -159,76 +268,7 @@ final class DetailViewController: BaseViewController {
             break
         }
     }
-
-    func toggleAnimation() {
-        if isAnimating {
-            stopScaleAnimation()
-        } else {
-            startScaleAnimation()
-        }
-        isAnimating = !isAnimating
-    }
-
-    func startScaleAnimation() {
-        let animation = CABasicAnimation(keyPath: "transform.scale")
-        animation.fromValue = 1.0
-        animation.toValue = 1.05
-        animation.duration = 1
-        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        animation.autoreverses = true
-        animation.repeatCount =  0
-        
-        audioImageView.layer.add(animation, forKey: "scaleAnimation")
-    }
-
-    func stopScaleAnimation() {
-        guard let presentationLayer = audioImageView.layer.presentation() else {
-            return
-        }
-        
-        let currentScale = presentationLayer.transform.m11
-        let animation = CABasicAnimation(keyPath: "transform.scale")
-        animation.fromValue = NSNumber(value: Float(currentScale))
-        animation.toValue = NSNumber(value: 1.0)
-        animation.duration = 0.3
-        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        animation.fillMode = .forwards
-        animation.isRemovedOnCompletion = false
-        
-        audioImageView.layer.add(animation, forKey: "scaleAnimation")
-    }
-
-
-    func progressViewStartStop() {
-        if timer == nil {
-            if counter >= 100 {
-                counter = 0
-            } else {
-                counter = previousCounter
-            }
-            progressView.progress = Float(counter) / Float(100)
-            
-            let interval = 0.3
-            timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
-                guard let self = self else { return }
-                
-                self.counter += 1
-                self.previousCounter = self.counter
-                
-                let progress = Float(self.counter) / Float(100)
-                self.progressView.setProgress(progress, animated: true)
-                
-                if self.counter >= 100 {
-                    timer.invalidate()
-                    self.timer = nil
-                }
-            }
-        } else {
-            timer?.invalidate()
-            timer = nil
-        }
-    }
-
+    
     @objc func updateStartLabel() {
            if startCounter <= 28 {
                progressStartLabel.text = "\(startCounter)"
@@ -251,46 +291,6 @@ final class DetailViewController: BaseViewController {
            endTimer = nil
        }
    }
-
-    func progressLabelSet() {
-        if startTimer == nil {
-          
-            if startCounter > 28 {
-                startCounter = 0
-            }
-            startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
-        } else {
-            startTimer?.invalidate()
-            startTimer = nil
-        }
-
-        if endTimer == nil {
-            if endCounter > 0 {
-                endCounter = -28
-            }
-            endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
-        } else {
-            endTimer?.invalidate()
-            endTimer = nil
-        }
-    }
-    
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title,
-                                                message: message,
-                                                preferredStyle: .alert)
-        
-        let yesAction = UIAlertAction(title: "Okey", style: .default) { _ in
-            self.setFavoriButtonImage()
-            self.presenter.favoriButtonTapped()
-        }
-        alertController.addAction(yesAction)
-        
-        let noAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        alertController.addAction(noAction)
-        
-        self.present(alertController, animated: true)
-    }
 }
 
 extension DetailViewController: DetailViewControllerProtocol {

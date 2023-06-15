@@ -9,7 +9,7 @@ import UIKit
 
 class EmptyTableViewCell: UITableViewCell {
     
-    let customImageView = UIImageView()
+    private let customImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

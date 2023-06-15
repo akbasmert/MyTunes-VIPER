@@ -8,6 +8,7 @@
 import MyTunesAPI
 
 protocol HomePresenterProtocol: AnyObject {
+    
     func viewDidLoad()
     func viewWillAppear()
     func numberOfItems() -> Int
@@ -30,11 +31,11 @@ final class HomePresenter {
     let router: HomeRouterProtocol!
     let interactor: HomeInteractorProtocol!
     
-    var filterKey: String = ""
-    var searchSetKey: String = ""
+    private var filterKey: String = ""
+    private var searchSetKey: String = ""
     
     private var audios: [Audio] = []
-    var searchHeader: [String] = ["music", "musicVideo", "movie", "ebook", "podcast", "tvShow", "software"]
+    private var searchHeader: [String] = ["music", "musicVideo", "movie", "ebook", "podcast", "tvShow", "software"]
     
     init(
          view: HomeViewControllerProtocol,
@@ -45,12 +46,10 @@ final class HomePresenter {
         self.router = router
         self.interactor = interactor
     }
-    
 }
 
 extension HomePresenter: HomePresenterProtocol {
    
-    
     var searchKey: String {
        searchSetKey
     }
@@ -71,7 +70,6 @@ extension HomePresenter: HomePresenterProtocol {
         view.setupSearchCollectionView()
         view.setTitle("My Tunes")
         fetchAudios(key: "Aşkın olayım", filterKey: "song")
-        
     }
     
     func viewWillAppear() {
