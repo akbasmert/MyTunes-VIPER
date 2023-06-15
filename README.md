@@ -1,11 +1,11 @@
 <h1 align=center>Mert AKBAŞ  iOS Developer</h1> 
 
 ## Technologies
-+ VIPER Architecture ✅ 
++ VIPER Architecture ✅
++ + Unit Tests and UI Tests ✅
 + Programmatically and Storyboard ✅
 + Alamofire ✅
 + CoreData ✅
-+ Unit Tests and UI Tests ✅
 
 
 ## Description
@@ -22,14 +22,14 @@
 
 
 ## Demo
-<img src="https://github.com/akbasmert/MertAKBAS_HW3/blob/main/ReadmePhotos/gif.gif" width="800" height="700" />
+<img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/gif.gif" width="800" height="700" />
 Note: Above is a gif promoting the app. Downloading late due to file size.
 
 #### Search Page 
 
-<img src="https://github.com/akbasmert/MertAKBAS_HW3/blob/main/ReadmePhotos/foto1.png" width="800" height="600" />
+<img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/foto1.png" width="800" height="600" />
 
 #### Word Detail Page 
 
-<img src="https://github.com/akbasmert/MertAKBAS_HW3/blob/main/ReadmePhotos/foto2.png" width="800" height="600" />
+<img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/foto2.png" width="800" height="600" />
 
