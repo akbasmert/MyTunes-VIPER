@@ -25,11 +25,11 @@
 <img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/gif.gif" width="800" height="450" />
 Note: Above is a gif promoting the app. Downloading late due to file size.
 
-#### Search Page 
+#### Home Page 
 
 <img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/foto1.png" width="800" height="600" />
 
-#### Word Detail Page 
+#### Detail Page 
 
 <img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/foto2.png" width="800" height="600" />
 
