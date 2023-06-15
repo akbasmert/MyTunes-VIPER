@@ -58,7 +58,6 @@ final class HomeViewController: BaseViewController {
     
     @objc func playButtonTapped(_ notification: Notification) {
             tableView.reloadData()
-       
     }
 }
 
@@ -131,7 +130,7 @@ extension HomeViewController: UITableViewDataSource {
                    titleForHeaderInSection section: Int) -> String? {
 
         if tableView == self.tableView {
-            return "Sizin için"
+            return "Recommend for you..."
         } else {
             return nil
         }
@@ -140,7 +139,6 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if presenter.numberOfItems() == 0 {
-           
             return 1
         } else {
             if tableView == self.tableView {
@@ -149,7 +147,6 @@ extension HomeViewController: UITableViewDataSource {
             return presenter.numberOfItems()
         }
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
@@ -167,9 +164,10 @@ extension HomeViewController: UITableViewDataSource {
                     cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
                 }
                 cell.selectionStyle = .none
-                
+               
                 // burası
                 cell.playingIndexPath = indexPath.row
+               
                return cell
             }
         } else {
@@ -186,11 +184,14 @@ extension HomeViewController: UITableViewDataSource {
                 }
                 cell.selectionStyle = .none
                 // burası
+            
                 cell.playingIndexPath = indexPath.row
+               
                return cell
             }
         }
     }
+    
 }
 
 extension HomeViewController: UITableViewDelegate {

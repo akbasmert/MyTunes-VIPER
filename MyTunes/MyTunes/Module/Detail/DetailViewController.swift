@@ -120,7 +120,7 @@ final class DetailViewController: BaseViewController {
     
     @IBAction func favoriButton(_ sender: Any) {
         if presenter.isTrackIdSaved(audioTrackId ?? 1) {
-            showAlert(title: "Uyarı", message: "Favorilerden kaldırılacak emin misiniz?")
+            showAlert(title: "Alert", message: "Are you sure it will be removed from favourites?")
         }else {
             setFavoriButtonImage()
             presenter.favoriButtonTapped()
@@ -280,13 +280,13 @@ final class DetailViewController: BaseViewController {
                                                 message: message,
                                                 preferredStyle: .alert)
         
-        let yesAction = UIAlertAction(title: "Evet", style: .default) { _ in
+        let yesAction = UIAlertAction(title: "Okey", style: .default) { _ in
             self.setFavoriButtonImage()
             self.presenter.favoriButtonTapped()
         }
         alertController.addAction(yesAction)
         
-        let noAction = UIAlertAction(title: "Hayır", style: .destructive, handler: nil)
+        let noAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         alertController.addAction(noAction)
         
         self.present(alertController, animated: true)

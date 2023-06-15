@@ -24,7 +24,7 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="eye-F1-P5R">
+                <searchBar contentMode="redraw" placeholder="music, video, podcast and more..." translatesAutoresizingMaskIntoConstraints="NO" id="eye-F1-P5R">
                     <rect key="frame" x="0.0" y="59" width="393" height="56"/>
                     <color key="tintColor" systemColor="systemPinkColor"/>
                     <textInputTraits key="textInputTraits"/>

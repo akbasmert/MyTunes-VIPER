@@ -26,7 +26,7 @@ protocol HomePresenterProtocol: AnyObject {
 
 final class HomePresenter {
    
-    unowned var view: HomeViewControllerProtocol
+    unowned var view: HomeViewControllerProtocol!
     let router: HomeRouterProtocol!
     let interactor: HomeInteractorProtocol!
     
@@ -109,8 +109,6 @@ extension HomePresenter: HomePresenterProtocol {
                                 audioIndex: index,
                                 audioMaxIndex: audios.count
                                ))
-        print("tılandı")
-        
     }
     
     func titleDidSelectRowAt(index: Int) {

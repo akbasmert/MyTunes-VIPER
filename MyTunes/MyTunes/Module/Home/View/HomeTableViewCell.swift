@@ -15,6 +15,7 @@ protocol HomeCellProtocol: AnyObject {
 
 class HomeTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var audioImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
@@ -22,11 +23,7 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var playImage: UIImageView!
     
     static let reuseIdentifier = String(describing: HomeTableViewCell.self)
-
-   
-    
     var playingIndexPath: Int?
-
     
     var cellPresenter: HomeCellPresenterProtocol! {
         didSet {
@@ -36,24 +33,24 @@ class HomeTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
+//    override func setSelected(_ selected: Bool, animated: Bool) {
+//        super.setSelected(selected, animated: animated)
+//
+//    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         playImage.image = UIImage(systemName: "play.fill")
     }
-
+    
     @IBAction func playButton(_ sender: Any) {
         
        
+        self.setPlayButtonImage()
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {  NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)}
         
-       self.setPlayButtonImage()
         self.cellPresenter?.playAudio(for: self.cellPresenter.getAudioURL())
    //    NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)
         
