@@ -2,7 +2,7 @@
 
 ## Technologies
 + VIPER Architecture ✅
-+ + Unit Tests and UI Tests ✅
++ Unit Tests and UI Tests ✅
 + Programmatically and Storyboard ✅
 + Alamofire ✅
 + CoreData ✅
