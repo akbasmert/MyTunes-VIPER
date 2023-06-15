@@ -22,7 +22,7 @@
 
 
 ## Demo
-<img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/gif.gif" width="800" height="700" />
+<img src="https://github.com/akbasmert/MertAKBAS_HWFinal/blob/main/ReadmePhotos/gif.gif" width="800" height="400" />
 Note: Above is a gif promoting the app. Downloading late due to file size.
 
 #### Search Page 
