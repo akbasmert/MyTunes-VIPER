@@ -9,6 +9,7 @@ import UIKit
 
 protocol DetailViewControllerProtocol: AnyObject {
     
+    func setprogressView()
     func setTitle(_ title: String)
     func setAudioTitle(_ text: String)
     func setAuidoArtistName(_ text: String)
@@ -36,7 +37,6 @@ final class DetailViewController: BaseViewController {
     @IBOutlet weak var progressEndLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    
     var presenter: DetailPresenterProtocol!
     var audioURL: String?
     var audioTitle: String?
@@ -45,40 +45,23 @@ final class DetailViewController: BaseViewController {
     var audioTrackId: Int?
     var audioIndex: Int?
     var maxAudioIndex: Int?
-    var isAnimating = false
-    
+    var isAnimating: Bool = false
     var counter: Int = 0
     var timer: Timer?
     var previousCounter: Int = 0
-    
     var startTimer: Timer?
     var endTimer: Timer?
     var startCounter: Int = 0
     var endCounter: Int = -28
     
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        audioImageView.accessibilityIdentifier = "audioImageView"
-        audioTitleLabel.accessibilityIdentifier = "audioTitleLabel"
-        audioArtistNameLabel.accessibilityIdentifier = "audioArtistNameLabel"
-        
-        progressView.progress = 0.0
-                
-                progressView.layer.cornerRadius = 4
-                progressView.clipsToBounds = true
-                progressView.layer.sublayers![1].cornerRadius = 4
-                progressView.subviews[1].clipsToBounds = true
-        
         presenter.viewDidLoad()
-        
+        viewFavoriButtonImage()
+        setAccessiblityIdentifiers()
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         view.addGestureRecognizer(panGesture)
-        
-        viewFavoriButtonImage()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,18 +72,11 @@ final class DetailViewController: BaseViewController {
         progressLabelSet()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         presenter.viewDidDisappear()
-     
     }
   
     @IBAction func playButton(_ sender: Any) {
-      
         toggleAnimation()
         presenter.playAudio(for: audioURL ?? "")
         setPlayButtonImage()
@@ -108,9 +84,7 @@ final class DetailViewController: BaseViewController {
         progressLabelSet()
     }
     
-    
     @IBAction func nextButton(_ sender: Any) {
-        
         UIView.animate(withDuration: 0.2, animations: {
                self.nextButtonImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
            }) { (_) in
@@ -119,23 +93,14 @@ final class DetailViewController: BaseViewController {
                }
            }
         
-        print("next")
-       
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.dismiss(animated: false)
             let nextIndex = min((self.audioIndex ?? 1) + 1, (self.maxAudioIndex ?? 1) - 1)
             NotificationCenter.default.post(name: Notification.Name("NextIndexSelected"), object: nextIndex)
         }
-
-        
-
     }
     
     @IBAction func backButton(_ sender: Any) {
-        print("back")
-        
-        
         UIView.animate(withDuration: 0.2, animations: {
                self.backButtonImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
            }) { (_) in
@@ -172,8 +137,6 @@ final class DetailViewController: BaseViewController {
                 view.layer.cornerRadius = cornerRadius
                 view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
                 view.transform = CGAffineTransform(translationX: 0, y: translation.y)
-
-                // Üste gölge ekle
                 view.layer.shadowColor = UIColor.black.cgColor
                 view.layer.shadowOpacity = 0.2
                 view.layer.shadowOffset = CGSize(width: 0, height: -3)
@@ -189,7 +152,7 @@ final class DetailViewController: BaseViewController {
                     self.view.transform = .identity
                     self.view.layer.cornerRadius = 0
                     self.view.layer.maskedCorners = []
-                    self.view.layer.shadowOpacity = 0 // Gölgeyi kaldır
+                    self.view.layer.shadowOpacity = 0
                 }, completion: nil)
             }
         default:
@@ -203,18 +166,17 @@ final class DetailViewController: BaseViewController {
         } else {
             startScaleAnimation()
         }
-        
         isAnimating = !isAnimating
     }
 
     func startScaleAnimation() {
         let animation = CABasicAnimation(keyPath: "transform.scale")
         animation.fromValue = 1.0
-        animation.toValue = 1.1
+        animation.toValue = 1.05
         animation.duration = 1
         animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         animation.autoreverses = true
-        animation.repeatCount =  0// .infinity
+        animation.repeatCount =  0
         
         audioImageView.layer.add(animation, forKey: "scaleAnimation")
     }
@@ -225,7 +187,6 @@ final class DetailViewController: BaseViewController {
         }
         
         let currentScale = presentationLayer.transform.m11
-        
         let animation = CABasicAnimation(keyPath: "transform.scale")
         animation.fromValue = NSNumber(value: Float(currentScale))
         animation.toValue = NSNumber(value: 1.0)
@@ -247,7 +208,7 @@ final class DetailViewController: BaseViewController {
             }
             progressView.progress = Float(counter) / Float(100)
             
-            let interval = 0.3 // Değişen kısım: Her 0.3 saniyede bir artış
+            let interval = 0.3
             timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] timer in
                 guard let self = self else { return }
                 
@@ -295,7 +256,7 @@ final class DetailViewController: BaseViewController {
         if startTimer == nil {
           
             if startCounter > 28 {
-                startCounter = 0 // Başa dönmek için startCounter'ı sıfırla
+                startCounter = 0
             }
             startTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateStartLabel), userInfo: nil, repeats: true)
         } else {
@@ -305,7 +266,7 @@ final class DetailViewController: BaseViewController {
 
         if endTimer == nil {
             if endCounter > 0 {
-                endCounter = -28 // Başa dönmek için startCounter'ı sıfırla
+                endCounter = -28
             }
             endTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateEndLabel), userInfo: nil, repeats: true)
         } else {
@@ -330,12 +291,17 @@ final class DetailViewController: BaseViewController {
         
         self.present(alertController, animated: true)
     }
-
-    
 }
 
 extension DetailViewController: DetailViewControllerProtocol {
-  
+    func setprogressView() {
+        progressView.progress = 0.0
+        progressView.layer.cornerRadius = 4
+        progressView.clipsToBounds = true
+        progressView.layer.sublayers![1].cornerRadius = 4
+        progressView.subviews[1].clipsToBounds = true
+    }
+
     func getTrackId() -> Int {
         audioTrackId ?? 1
     }
@@ -344,25 +310,18 @@ extension DetailViewController: DetailViewControllerProtocol {
         audioArtistName ?? ""
     }
     
-//    func getAudioImageURL() -> URL {
-//        URL(string: audioImageURL ?? "")!
-//
-//    }
-    
     func getAudioImageURL() -> URL {
         var modifiedURLString = audioImageURL ?? ""
         
         if let range = modifiedURLString.range(of: "100x100bb.jpg") {
             modifiedURLString.replaceSubrange(range, with: "500x500bb.jpg")
         }
-        
         return URL(string: modifiedURLString)!
     }
     
     func getAudioImageURL() -> String {
         audioImageURL ?? ""
     }
-    
     
     func getAudioTitle() -> String {
         audioTitle ?? ""
@@ -445,5 +404,13 @@ extension DetailViewController: DetailViewControllerProtocol {
                 }
             }
         }
+    }
+}
+
+extension DetailViewController {
+    func setAccessiblityIdentifiers() {
+        audioImageView.accessibilityIdentifier = "audioImageView"
+        audioTitleLabel.accessibilityIdentifier = "audioTitleLabel"
+        audioArtistNameLabel.accessibilityIdentifier = "audioArtistNameLabel"
     }
 }

@@ -19,7 +19,6 @@ final class MyTunesUITests: XCTestCase {
     }
     
     func test_navigate_Detail_to_Home_controller() {
-  
         app.launch()
         sleep(1)
         

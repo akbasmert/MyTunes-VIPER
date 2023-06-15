@@ -14,8 +14,8 @@ protocol HomeCellProtocol: AnyObject {
 }
 
 class HomeTableViewCell: UITableViewCell {
-    @IBOutlet weak var audioImage: UIImageView!
     
+    @IBOutlet weak var audioImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
     @IBOutlet weak var playUIView: UIView!
@@ -23,7 +23,9 @@ class HomeTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = String(describing: HomeTableViewCell.self)
 
-    var playingIndexPath: IndexPath?
+   
+    
+    var playingIndexPath: Int?
 
     
     var cellPresenter: HomeCellPresenterProtocol! {
@@ -34,26 +36,11 @@ class HomeTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
-//        self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-//        UIView.animate(withDuration: 0.5) {
-//            self.transform = CGAffineTransform.identity
-//        }
-        playImage.image = UIImage(systemName: "play.fill")
-       
+
     }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-//        if selected {
-//               // Hücre seçildiyse yapılacak işlemler
-//               cellPresenter?.stopAudio()
-//               setPlayButtonImage()
-//           } else {
-//               // Hücre seçimi kaldırıldıysa yapılacak işlemler
-//               setPlayButtonImage()
-//           }
     }
     
     override func prepareForReuse() {
@@ -62,19 +49,16 @@ class HomeTableViewCell: UITableViewCell {
     }
 
     @IBAction func playButton(_ sender: Any) {
-        print("tıklandı")
-      //  NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)
-
-            
-      //  DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {  }
-            self.setPlayButtonImage()
-            self.cellPresenter?.playAudio(for: self.cellPresenter.getAudioURL())
-      
-    
+        
+       
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {  NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)}
+        
+       self.setPlayButtonImage()
+        self.cellPresenter?.playAudio(for: self.cellPresenter.getAudioURL())
+   //    NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)
+        
     }
-    
-   
-    
+
     func setPlayButtonImage() {
         if let currentImage = playImage.image {
             if currentImage == UIImage(systemName: "pause.fill") {
@@ -98,10 +82,7 @@ class HomeTableViewCell: UITableViewCell {
             }
         }
     }
-    
-
 }
-
 
 extension HomeTableViewCell: HomeCellProtocol {
     
@@ -118,5 +99,4 @@ extension HomeTableViewCell: HomeCellProtocol {
     func setAuthor(_ text: String) {
         starLabel.text = text
     }
-    
 }

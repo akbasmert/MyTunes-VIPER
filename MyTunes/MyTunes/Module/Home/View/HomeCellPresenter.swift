@@ -20,8 +20,12 @@ final class HomeCellPresenter {
     
     weak var view: HomeCellProtocol?
     private let audios: Audio
-    var audioPlayer: AVAudioPlayer?
+    
+    static var cellAudioPlayer: AVAudioPlayer?
+    static var cellAudioURL: String?
 
+    
+    var currentAudioURL: String? // Şu anda çalınan şarkının URL'sini takip etmek için bir değişken ekleyin
     
     init(
         view: HomeCellProtocol?,
@@ -58,13 +62,9 @@ final class HomeCellPresenter {
 
 extension HomeCellPresenter: HomeCellPresenterProtocol {
    
-   
-    
     func load() {
-        
         ImageDownloader.shared.image(news: audios) { [weak self] data, error in
             guard let self = self else { return }
-            
             if let data = data {
                 if let img = UIImage(data: data) {
                     DispatchQueue.main.async {
@@ -73,7 +73,6 @@ extension HomeCellPresenter: HomeCellPresenterProtocol {
                 }
             }
         }
-
         view?.setTitle(audios.trackName ?? "")
         view?.setAuthor(audios.artistName ?? "")
     }
@@ -81,37 +80,108 @@ extension HomeCellPresenter: HomeCellPresenterProtocol {
     func getAudioURL() -> String {
         audios.previewUrl ?? ""
     }
+//
+//    func stopAudio() {
+//        audioPlayer?.stop()
+//    }
+//
+//    func playAudio(for urlString: String) {
+//
+//        if let audioPlayer = audioPlayer {
+//            if audioPlayer.isPlaying {
+//                audioPlayer.pause()
+//            } else {
+//                audioPlayer.play()
+//            }
+//        } else {
+//            fetchAudio(for: urlString) { [weak self] result in
+//                switch result {
+//                case .success(let audioData):
+//                    DispatchQueue.main.async {
+//                        do {
+//                            self?.audioPlayer = try AVAudioPlayer(data: audioData)
+//                            self?.audioPlayer?.prepareToPlay()
+//                            self?.audioPlayer?.play()
+//                        } catch {
+//                            print("Audio player error: \(error.localizedDescription)")
+//                        }
+//                    }
+//                case .failure(let error):
+//                    print("Audio data fetch error: \(error.localizedDescription)")
+//                }
+//            }
+//        }
+//    }
+
+ 
+
     
     func stopAudio() {
-        audioPlayer?.stop()
+        HomeCellPresenter.cellAudioPlayer?.stop()
     }
-    
-    
+
     func playAudio(for urlString: String) {
+
         
-        if let audioPlayer = audioPlayer {
-            if audioPlayer.isPlaying {
-                audioPlayer.pause()
+        if HomeCellPresenter.cellAudioURL == urlString {
+            if let audioPlayer = HomeCellPresenter.cellAudioPlayer {
+                if audioPlayer.isPlaying {
+                    audioPlayer.pause()
+                } else {
+                    audioPlayer.play()
+                }
             } else {
-                audioPlayer.play()
-            }
-        } else {
-            fetchAudio(for: urlString) { [weak self] result in
-                switch result {
-                case .success(let audioData):
-                    DispatchQueue.main.async {
-                        do {
-                            self?.audioPlayer = try AVAudioPlayer(data: audioData)
-                            self?.audioPlayer?.prepareToPlay()
-                            self?.audioPlayer?.play()
-                        } catch {
-                            print("Audio player error: \(error.localizedDescription)")
+                fetchAudio(for: urlString) { result in
+                    switch result {
+                    case .success(let audioData):
+                        DispatchQueue.main.async {
+                            do {
+                                HomeCellPresenter.cellAudioPlayer = try AVAudioPlayer(data: audioData)
+                                HomeCellPresenter.cellAudioPlayer?.prepareToPlay()
+                                HomeCellPresenter.cellAudioPlayer?.play()
+                            } catch {
+                                print("Audio player error: \(error.localizedDescription)")
+                            }
                         }
+                    case .failure(let error):
+                        print("Audio data fetch error: \(error.localizedDescription)")
                     }
-                case .failure(let error):
-                    print("Audio data fetch error: \(error.localizedDescription)")
                 }
             }
+        } else {
+            HomeCellPresenter.cellAudioPlayer?.stop()
+            HomeCellPresenter.cellAudioPlayer = nil
+            if let audioPlayer = HomeCellPresenter.cellAudioPlayer {
+                if audioPlayer.isPlaying {
+                    audioPlayer.pause()
+                } else {
+                    audioPlayer.play()
+                }
+            } else {
+                fetchAudio(for: urlString) {  result in
+                    switch result {
+                    case .success(let audioData):
+                        DispatchQueue.main.async {
+                            do {
+                                HomeCellPresenter.cellAudioPlayer = try AVAudioPlayer(data: audioData)
+                                HomeCellPresenter.cellAudioPlayer?.prepareToPlay()
+                                HomeCellPresenter.cellAudioPlayer?.play()
+                            } catch {
+                                print("Audio player error: \(error.localizedDescription)")
+                            }
+                        }
+                    case .failure(let error):
+                        print("Audio data fetch error: \(error.localizedDescription)")
+                    }
+                }
+            }
+            
         }
+        HomeCellPresenter.cellAudioURL = urlString
+    
     }
+
+
+
+
 }

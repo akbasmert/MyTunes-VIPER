@@ -54,7 +54,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         view.textColor = UIColor.black
         view.font = UIFont.boldSystemFont(ofSize: 16.0)
         view.translatesAutoresizingMaskIntoConstraints = false
-      //  view.text = "deneme"
+        
         return view
     }()
 
@@ -75,6 +75,7 @@ class SearchCollectionViewCell: UICollectionViewCell {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         let cons = containerView.heightAnchor.constraint(equalToConstant: 1000)
         cons.isActive = true
+        
         return cons
     }()
 }
@@ -91,7 +92,9 @@ extension SearchCollectionViewCell {
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         cardWidth.constant = targetSize.height
 
-        return containerView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: horizontalFittingPriority, verticalFittingPriority: verticalFittingPriority)
+        return containerView.systemLayoutSizeFitting(targetSize,
+                                                     withHorizontalFittingPriority: horizontalFittingPriority,
+                                                     verticalFittingPriority: verticalFittingPriority)
     }
 }
 

@@ -8,8 +8,15 @@
 import Foundation
 @testable import MyTunes
 
-
 final class MockHomeViewController: HomeViewControllerProtocol {
+    
+    var isInvokedSetupSearchCollectionView = false
+    var invokedSetupSearchCollectionView = 0
+    
+    func setupSearchCollectionView() {
+         isInvokedSetupSearchCollectionView = true
+         invokedSetupSearchCollectionView += 1
+    }
     
     var isInvokedSetupSearchTableView = false
     var invokedSetupSearchTableViewCount = 0
@@ -26,7 +33,6 @@ final class MockHomeViewController: HomeViewControllerProtocol {
         isInvokedSetupTableView = true
         invokedSetupTableViewCount += 1
     }
-    
     
     var isInvokedReloadData = false
     var invokedReloadDataCount = 0
@@ -77,5 +83,4 @@ final class MockHomeViewController: HomeViewControllerProtocol {
         invokedSetTitleCount += 1
         invokedSetTitleParameters = (title, ())
     }
-    
 }

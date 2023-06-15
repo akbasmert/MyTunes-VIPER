@@ -27,15 +27,12 @@ class EmptyTableViewCell: UITableViewCell {
         customImageView.tintColor = .systemPink
         contentView.addSubview(customImageView)
         
-        // Constraints for customImageView
         NSLayoutConstraint.activate([
             customImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 90),
             customImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -110),
             customImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
             customImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -70)
         ])
-        
-        // Set the image
         customImageView.image = UIImage(named: "noresults")
     }
 }

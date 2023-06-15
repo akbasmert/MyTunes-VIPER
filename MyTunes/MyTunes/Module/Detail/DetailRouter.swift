@@ -23,25 +23,15 @@ final class DetailRouter {
          let view = DetailViewController()
          let router = DetailRouter()
          let interactor = DetailInteractor()
-        
          let presenter = DetailPresenter(view: view, router: router, interactor: interactor)
          view.presenter = presenter
          router.viewController = view
          return view
      }
-    
 }
 
 extension DetailRouter: DetailRouterProtocol {
     
     func navigate(_ route: DetailRoutes) {
-        
-//        switch route {
-//        case .openURL(let url):
-//            let urlForNews = SFSafariViewController(url: url)
-//            viewController?.present(urlForNews, animated: true)
-//        }
-        
     }
-    
 }

@@ -16,15 +16,12 @@ final class HomePresenterTests: XCTestCase {
     var interactor: MockHomeInteractor!
     var router: MockHomeRouter!
     
-    
     override func setUp() {
         super.setUp()
-        
         view = .init()
         interactor = .init()
         router = .init()
         presenter = .init(view: view, router: router, interactor: interactor)
-        
     }
     
     override func tearDown() {

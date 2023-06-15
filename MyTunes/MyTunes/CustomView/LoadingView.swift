@@ -5,10 +5,10 @@
 //  Created by Mert AKBAŞ on 6.06.2023.
 //
 
-
 import UIKit
 
 class LoadingView {
+    
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     static let shared = LoadingView()
     var blurView: UIVisualEffectView = UIVisualEffectView()
@@ -35,7 +35,6 @@ class LoadingView {
         }
     }
 
-    
     func hideLoading() {
         DispatchQueue.main.async {
             self.blurView.removeFromSuperview()

@@ -16,7 +16,6 @@ protocol SplashRouterProtocol: AnyObject {
     func navigate(_ route: SplashRoutes)
 }
 
-
 final class SplashRouter {
     
     weak var viewController: SplashViewController?
@@ -36,7 +35,6 @@ final class SplashRouter {
 extension SplashRouter: SplashRouterProtocol {
     
     func navigate(_ route: SplashRoutes) {
-        
         switch route {
         case .homeScreen:
             guard let window = viewController?.view.window else { return }
@@ -45,7 +43,5 @@ extension SplashRouter: SplashRouterProtocol {
             window.rootViewController = navigationController
         }
     }
-    
-    
 }
 

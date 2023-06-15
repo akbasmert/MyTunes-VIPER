@@ -8,11 +8,7 @@
 import Foundation
 @testable import MyTunes
 
-
 final class MockHomeInteractor: HomeInteractorProtocol {
-    
-   
-    
     
     var isInvokedFetchAudios = false
     var inkovedFetchAudiosCount = 0

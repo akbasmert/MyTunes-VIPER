@@ -9,6 +9,7 @@ import CoreData
 import UIKit
 
 class CoreDataManager {
+    
     static let shared = CoreDataManager()
 
     func saveAudioData(_ trackid: Int64) {

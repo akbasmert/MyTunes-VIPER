@@ -68,8 +68,10 @@ extension HomePresenter: HomePresenterProtocol {
     func viewDidLoad() {
         view.setupSearchTableView()
         view.setupTableView()
+        view.setupSearchCollectionView()
         view.setTitle("My Tunes")
         fetchAudios(key: "Aşkın olayım", filterKey: "song")
+        
     }
     
     func viewWillAppear() {

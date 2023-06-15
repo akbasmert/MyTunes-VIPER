@@ -28,7 +28,6 @@ final class DetailPresenter {
     let router: DetailRouterProtocol!
     let interactor: DetailInteractorProtocol!
    
-
     init(
         view: DetailViewControllerProtocol,
         router: DetailRouterProtocol,
@@ -41,7 +40,7 @@ final class DetailPresenter {
 }
 
 extension DetailPresenter: DetailPresenterProtocol {
-    
+ 
     func favoriButtonTapped() {
         let trackId = view.getTrackId()
         let favoriTrackIds = interactor.fetchAudioData()
@@ -54,22 +53,16 @@ extension DetailPresenter: DetailPresenterProtocol {
     }
 
     func isTrackIdSaved(_ trackId: Int) -> Bool {
-    
         let favoriTrackIds = interactor.fetchAudioData()
         return favoriTrackIds.contains(trackId)
     }
   
     func viewDidLoad() {
-    
-     
-        print("****** \(view.getAudioTitle()) *********")
-        print("****** \(view.getAudioArtistNmae()) *********")
-        
-        view.setTitle("deneme")
+        view.setprogressView()
+        view.setTitle("")
         view.setAudioTitle(view.getAudioTitle())
         view.setAuidoArtistName(view.getAudioArtistNmae())
         imageSet()
-        
     }
     
     func viewDidDisappear() {

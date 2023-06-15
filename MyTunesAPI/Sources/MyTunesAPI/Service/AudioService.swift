@@ -28,11 +28,7 @@ public class AudiosService: AudiosServiceProtocol {
         }
         
         let urlString = "https://itunes.apple.com/search?term=\(encodedKey)&country=tr&entity=\(filterKey)"
-        guard let url = URL(string: urlString) else {
-            // Invalid URL
-            return
-        }
-        print(urlString)
+        guard let url = URL(string: urlString) else { return}
         
         AF.request(url).responseData { response in
             switch response.result {
@@ -53,5 +49,4 @@ public class AudiosService: AudiosServiceProtocol {
             }
         }
     }
-
 }

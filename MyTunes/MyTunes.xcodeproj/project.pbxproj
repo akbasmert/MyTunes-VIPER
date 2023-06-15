@@ -166,10 +166,8 @@
 		41774E422A2E84F300D83E39 /* MyTunes */ = {
 			isa = PBXGroup;
 			children = (
-				41774E4C2A2E84F300D83E39 /* MyTunes.xcdatamodeld */,
 				41774E882A2F87D500D83E39 /* App */,
 				41774E892A2F880200D83E39 /* CustomView */,
-				41774E8A2A2F880B00D83E39 /* Extension */,
 				41774E8C2A2F885300D83E39 /* Module */,
 				41774E8B2A2F883B00D83E39 /* Utils */,
 				41774E472A2E84F300D83E39 /* ViewController.swift */,
@@ -210,6 +208,7 @@
 			children = (
 				41774E432A2E84F300D83E39 /* AppDelegate.swift */,
 				41774E452A2E84F300D83E39 /* SceneDelegate.swift */,
+				41774E4C2A2E84F300D83E39 /* MyTunes.xcdatamodeld */,
 				41774E4F2A2E84F600D83E39 /* Assets.xcassets */,
 			);
 			path = App;
@@ -221,13 +220,6 @@
 				41774E912A2F897C00D83E39 /* LoadingView.swift */,
 			);
 			path = CustomView;
-			sourceTree = "<group>";
-		};
-		41774E8A2A2F880B00D83E39 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		41774E8B2A2F883B00D83E39 /* Utils */ = {

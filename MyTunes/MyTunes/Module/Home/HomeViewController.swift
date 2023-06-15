@@ -12,13 +12,13 @@ protocol HomeViewControllerProtocol: AnyObject {
    
     func setupSearchTableView()
     func setupTableView()
+    func setupSearchCollectionView()
     func reloadData()
     func searchReloadData()
     func showError(_ message: String)
     func showLoadingView()
     func hideLoadingView()
     func setTitle(_ title: String)
-    
 }
 
 final class HomeViewController: BaseViewController {
@@ -29,38 +29,20 @@ final class HomeViewController: BaseViewController {
     @IBOutlet weak var searchCollectionView: UICollectionView!
     @IBOutlet weak var searchTableView: UITableView!
     
-    
-    
     var presenter: HomePresenterProtocol!
     var timer: Timer?
-   
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(playButtonTapped(_:)), name: NSNotification.Name("PlayButtonTapped"), object: nil)
-
-        
-        // Do any additional setup after loading the view.
         presenter.viewDidLoad()
        
         searchBar.delegate = self
-       
-        tableView.register(EmptyTableViewCell.self, forCellReuseIdentifier: "EmptyCell")
-        searchTableView.register(EmptyTableViewCell.self, forCellReuseIdentifier: "EmptyCell")
-
-        searchCollectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
-        searchCollectionView.dataSource = self
-        searchCollectionView.delegate = self
-        searchCollectionView.reloadData()
-        
-        let firstIndexPath = IndexPath(item: 0, section: 0)
-        searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(playButtonTapped(_:)), name: NSNotification.Name("PlayButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNextIndexSelected(_:)), name: Notification.Name("NextIndexSelected"), object: nil)
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPink]
+        
          setAccessiblityIdentifiers() 
     }
     
@@ -70,42 +52,46 @@ final class HomeViewController: BaseViewController {
     
     @objc func handleNextIndexSelected(_ notification: Notification) {
         if let nextIndex = notification.object as? Int {
-            // Burada sonraki index ile yapılması gereken işlemleri gerçekleştirin
-            // Örneğin, didSelectRowAt işlevine benzer şekilde bir sonraki hücreye geçiş yapabilirsiniz
-            
-            print("bildirim geldi")
             presenter.didSelectRowAt(index: nextIndex)
         }
     }
-
     
     @objc func playButtonTapped(_ notification: Notification) {
-       
             tableView.reloadData()
-      
+       
     }
-    
-    
- 
- 
 }
 
 extension HomeViewController: HomeViewControllerProtocol {
     
+    func setupSearchCollectionView() {
+        searchCollectionView.register(SearchCollectionViewCell.self,
+                                      forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
+        searchCollectionView.dataSource = self
+        searchCollectionView.delegate = self
+        searchCollectionView.reloadData()
+        
+        let firstIndexPath = IndexPath(item: 0, section: 0)
+        searchCollectionView.selectItem(at: firstIndexPath,
+                                        animated: true, scrollPosition: .left)
+    }
+    
     func setupSearchTableView() {
         searchTableView.dataSource = self
         searchTableView.delegate = self
-       // tableView.register(cellType: NewsCell.self)
-       // tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
-        searchTableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
+        searchTableView.register(EmptyTableViewCell.self,
+                                 forCellReuseIdentifier: "EmptyCell")
+        searchTableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil),
+                                 forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
     }
     
     func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-       // tableView.register(cellType: NewsCell.self)
-       // tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
-        tableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil), forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
+        tableView.register(EmptyTableViewCell.self,
+                           forCellReuseIdentifier: "EmptyCell")
+        tableView.register(UINib(nibName: "HomeTableViewCell", bundle: nil),
+                           forCellReuseIdentifier: HomeTableViewCell.reuseIdentifier)
     }
     
     func reloadData() {
@@ -141,8 +127,9 @@ extension HomeViewController: HomeViewControllerProtocol {
 
 extension HomeViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
+    func tableView(_ tableView: UITableView,
+                   titleForHeaderInSection section: Int) -> String? {
+
         if tableView == self.tableView {
             return "Sizin için"
         } else {
@@ -178,16 +165,14 @@ extension HomeViewController: UITableViewDataSource {
                 if let audios = presenter.audios(indexPath.row) {
                    
                     cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
-                  //  print(audios)
                 }
                 cell.selectionStyle = .none
-            
+                
+                // burası
+                cell.playingIndexPath = indexPath.row
                return cell
             }
-           
-            
         } else {
-            
             if presenter.numberOfItems() == 0 {
                 let emptyCell = tableView.dequeueReusableCell(withIdentifier: "EmptyCell") as! EmptyTableViewCell
                 emptyCell.selectionStyle = .none
@@ -198,9 +183,10 @@ extension HomeViewController: UITableViewDataSource {
                 if let audios = presenter.audios(indexPath.row) {
                     
                     cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
-                  //  print(audios)
                 }
                 cell.selectionStyle = .none
+                // burası
+                cell.playingIndexPath = indexPath.row
                return cell
             }
         }
@@ -212,20 +198,18 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if presenter.numberOfItems() == 0 {
-           
         } else {
-            
             if tableView == self.tableView {
                 presenter.didSelectRowAt(index: indexPath.row)
                 
             } else {
                 presenter.didSelectRowAt(index: indexPath.row)
-
             }
             tableView.reloadData()
         }
-       
-       
+        
+        HomeCellPresenter.cellAudioPlayer?.stop()
+        HomeCellPresenter.cellAudioPlayer = nil
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -243,6 +227,7 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return presenter.titleNumberOfItems()
     }
@@ -252,13 +237,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         if let title = presenter.title(indexPath.row) {
             cell.cellPresenter = SearchCollectionViewCellPresenter(view: cell, title: title)
-          //  print(audios)
         }
                 return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         
         searchCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
         if searchTableView.numberOfRows(inSection: 0) > 0 {
@@ -270,22 +253,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         print(presenter.getFilterKey)
         self.presenter.fetchAudios(key: presenter.searchKey, filterKey: presenter.getFilterKey)
             tableView.reloadData()
-        
     }
-    
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-         // Hücre boyutunu burada belirleyin
-         
-        let label = UILabel()
-        label.text = presenter.titleString(index: indexPath.row)
-        label.sizeToFit()
-        let width = label.frame.width + 24
         
-         
+            let label = UILabel()
+            label.text = presenter.titleString(index: indexPath.row)
+            label.sizeToFit()
+            let width = label.frame.width + 24
+        
          return CGSize(width: width, height: 30)
      }
 }
@@ -300,39 +279,27 @@ extension HomeViewController: UISearchBarDelegate {
             timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
                 self?.presenter.fetchAudios(key: searchText, filterKey: self?.presenter.getFilterKey ?? "")
                 self?.presenter.setSearchKey(searchKey: searchText)
-                
-                print(self!.presenter.searchKey)
                 self?.tableView.reloadData()
             })
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-          // İptal düğmesine tıklandığında yapılacak işlemleri burada gerçekleştirin
         uiView.isHidden = true
-        searchBar.showsCancelButton = false
-
-          searchBar.text = nil // Arama metnini sıfırla
-          searchBar.resignFirstResponder() // Klavyeyi kapat
-        presenter.viewDidLoad()
-        
+          searchBar.showsCancelButton = false
+          searchBar.text = nil
+          searchBar.resignFirstResponder()
+          presenter.viewDidLoad()
         let firstIndexPath = IndexPath(row: 0, section: 0)
         tableView.selectRow(at: firstIndexPath, animated: true, scrollPosition: .top)
-
       }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-          // Arama çubuğuna tıklandığında yapılacak işlemleri burada gerçekleştirin
-          // Örneğin, bir işlem yapmak için başka bir fonksiyonu çağırabilirsiniz
         searchBar.showsCancelButton = true
-        
         let firstIndexPath = IndexPath(item: 0, section: 0)
         searchCollectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .left)
-
-          // true döndürerek arama çubuğunun düzenlenebilir olmasını sağlayın
           return true
       }
-      
 }
 
 extension HomeViewController {
