@@ -35,25 +35,14 @@ class HomeTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         playImage.image = UIImage(systemName: "play.fill")
     }
     
     @IBAction func playButton(_ sender: Any) {
-        
-       
         self.setPlayButtonImage()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {  NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)}
-        
         self.cellPresenter?.playAudio(for: self.cellPresenter.getAudioURL())
-   //    NotificationCenter.default.post(name: NSNotification.Name("PlayButtonTapped"), object: self)
-        
     }
 
     func setPlayButtonImage() {

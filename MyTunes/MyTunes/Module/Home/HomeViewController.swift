@@ -36,9 +36,8 @@ final class HomeViewController: BaseViewController {
         super.viewDidLoad()
         
         presenter.viewDidLoad()
-       
         searchBar.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(playButtonTapped(_:)), name: NSNotification.Name("PlayButtonTapped"), object: nil)
+    
         NotificationCenter.default.addObserver(self, selector: #selector(handleNextIndexSelected(_:)), name: Notification.Name("NextIndexSelected"), object: nil)
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemPink]
@@ -54,10 +53,6 @@ final class HomeViewController: BaseViewController {
         if let nextIndex = notification.object as? Int {
             presenter.didSelectRowAt(index: nextIndex)
         }
-    }
-    
-    @objc func playButtonTapped(_ notification: Notification) {
-            tableView.reloadData()
     }
 }
 
