@@ -19,38 +19,42 @@ protocol DetailInteractorProtocol {
 final class DetailInteractor {
 
     var audioPlayer: AVAudioPlayer?
+    private var audioDataTask: URLSessionDataTask?
 
     func fetchAudio(for urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
-            guard let audioURL = URL(string: urlString) else {
-                let error = NSError(domain: "not URL", code: 0, userInfo: nil)
+        guard let audioURL = URL(string: urlString) else {
+            let error = NSError(domain: "not URL", code: 0, userInfo: nil)
+            completion(.failure(error))
+            return
+        }
+        
+        let session = URLSession.shared
+        audioDataTask?.cancel()
+        audioDataTask = session.dataTask(with: audioURL) { (data, response, error) in
+            if let error = error {
                 completion(.failure(error))
                 return
-                }
+            }
             
-            let session = URLSession.shared
-            let task = session.dataTask(with: audioURL) { (data, response, error) in
-                if let error = error {
-                completion(.failure(error))
-                return
-                }
-                
             guard let audioData = data else {
                 let error = NSError(domain: "Data Error", code: 0, userInfo: nil)
                 completion(.failure(error))
                 return
-                }
-                completion(.success(audioData))
             }
-            task.resume()
+            completion(.success(audioData))
         }
+        audioDataTask?.resume()
+    }
 }
 
 extension DetailInteractor: DetailInteractorProtocol {
     
     func stopAudio() {
         audioPlayer?.stop()
+        audioPlayer = nil
+        audioDataTask?.cancel()
     }
-    
+
     func fetchAudioData() -> [Int] {
         let favoriTrackIds = CoreDataManager.shared.fetchAudioData()
         return favoriTrackIds

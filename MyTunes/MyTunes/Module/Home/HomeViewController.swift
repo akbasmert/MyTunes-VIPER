@@ -160,9 +160,6 @@ extension HomeViewController: UITableViewDataSource {
                 }
                 cell.selectionStyle = .none
                
-                // burası
-                cell.playingIndexPath = indexPath.row
-               
                return cell
             }
         } else {
@@ -178,15 +175,11 @@ extension HomeViewController: UITableViewDataSource {
                     cell.cellPresenter = HomeCellPresenter(view: cell, audios: audios)
                 }
                 cell.selectionStyle = .none
-                // burası
-            
-                cell.playingIndexPath = indexPath.row
                
                return cell
             }
         }
     }
-    
 }
 
 extension HomeViewController: UITableViewDelegate {

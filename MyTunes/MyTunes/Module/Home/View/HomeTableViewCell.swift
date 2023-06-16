@@ -23,7 +23,6 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var playImage: UIImageView!
     
     static let reuseIdentifier = String(describing: HomeTableViewCell.self)
-    var playingIndexPath: Int?
     
     var cellPresenter: HomeCellPresenterProtocol! {
         didSet {

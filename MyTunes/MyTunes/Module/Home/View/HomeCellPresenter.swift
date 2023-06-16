@@ -24,8 +24,6 @@ final class HomeCellPresenter {
     static var cellAudioPlayer: AVAudioPlayer?
     static var cellAudioURL: String?
 
-    var currentAudioURL: String? // Şu anda çalınan şarkının URL'sini takip etmek için bir değişken ekleyin
-    
     init(
         view: HomeCellProtocol?,
          audios: Audio
